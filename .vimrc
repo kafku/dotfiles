@@ -2,7 +2,6 @@ set tabstop=4
 set shiftwidth=4
 set nocompatible
 syntax on
-
 set wildmenu
 set showcmd
 set backspace=indent,eol,start
@@ -47,7 +46,7 @@ if has('multi_byte_ime') || has('xim')
 	highlight CursorIM guifg=NONE guibg=DarkRed
 endif
 
-"set foldmethod=syntax
+set foldmethod=manual
 set list listchars=tab:\|\ 
 highlight Specialkey ctermfg=233
 
@@ -56,6 +55,7 @@ map Y y$
 filetype off
 if has('vim_starting')
 	if !isdirectory(expand('~/.vim/bundle/neobundle.vim/'))
+		echo 'installing neobundle'
 		:call system("git clone git://github.com/Shougo/neobundle.vim ~/.vim/bundle/neobundle.vim")
 	endif
 
@@ -68,9 +68,10 @@ NeoBundleFetch 'Shougo/neobundle.vim'
 
 NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'tpope/vim-surround'
-NeoBundle 'rails.vim'
 NeoBundle 'railscasts' 
-NeoBundle 'The-NERD-tree'
+NeoBundleLazy 'The-NERD-tree', {
+	\ 'autoload': {'commands': 'NERDTreeToggle'}
+	\ }
 NeoBundle 'The-NERD-Commenter'
 NeoBundle 'Lokaltog/vim-easymotion'
 NeoBundle 'Lokaltog/powerline-fonts'
@@ -90,9 +91,9 @@ NeoBundle 'Shougo/neomru.vim', {
   \ 'depends' : 'Shougo/unite.vim'
   \ }
 if has('lua')
-	NeoBundleLazy 'Shougo/neocomplete', {
-	\ 'depends' : 'Shougo/vimproc',
-	\ 'autolaod' : {'insert': 1,}
+	NeoBundleLazy 'Shougo/neocomplete.vim', {
+	\ 'depends' : 'Shougo/vimproc.vim',
+	\ 'autoload': {'insert':1,},
 	\ }
 endif
 NeoBundleLazy 'Shougo/neosnippet', {
@@ -116,19 +117,25 @@ NeoBundle 'https://github.com/Yggdroot/indentLine'
 NeoBundle 'YankRing.vim'
 NeoBundle 'undotree.vim'
 NeoBundle 'easybuffer.vim'
-NeoBundle 'majutsushi/tagbar'
-NeoBundle 'scrooloose/syntastic' 
+NeoBundle 'scrooloose/syntastic', {
+	\ 'build':{
+	\  'mac': 'pip install pyflakes pep8',
+	\  'unix': 'pip install pyflakes pep8'
+	\}}
 NeoBundleLazy 'thinca/vim-quickrun', {
   \ 'autoload' : {
   \   'mappings' : [['n', '\r']],
   \   'commands' : ['QuickRun']
   \ }}
+NeoBundle 'majutsushi/tagbar'
 NeoBundle 'vim-scripts/TasKList.vim'
 NeoBundle 'tagexplorer.vim'
 NeoBundle 'szw/vim-tags'
-NeoBundle 'python_ifold'
 NeoBundle 'thinca/vim-splash'
-NeoBundle 'vim-jp/cpp-vim'
+NeoBundleLazy 'vim-jp/cpp-vim', {
+	\ 'autoload':{
+	\  'filetypes': ['cpp', 'hpp', 'h']
+	\}}
 NeoBundle 'mattn/quickrunex-vim'
 NeoBundle 'tyru/open-browser.vim'
 NeoBundle 'mattn/webapi-vim'
@@ -138,42 +145,83 @@ NeoBundle 'terryma/vim-multiple-cursors'
 NeoBundle 'AndrewRadev/linediff.vim'
 NeoBundle 'AndrewRadev/switch.vim'
 NeoBundle 'godlygeek/tabular'
-NeoBundle 'plasticboy/vim-markdown'
+NeoBundleLazy 'plasticboy/vim-markdown'
 NeoBundle 'kannokanno/previm' 
-NeoBundle 'Rip-Rip/clang_complete'
-NeoBundle 'Flake8-vim'
-NeoBundle 'hynek/vim-python-pep8-indent'
+NeoBundleLazy 'Rip-Rip/clang_complete', {
+	\ 'autoload': {
+	\  'filetypes': ['cpp', 'c', 'h', 'hpp'],
+	\ }}
+NeoBundleLazy 'python_ifold', {
+	\ 'autoload': {
+	\  'filetypes': ['python', 'python3', 'djangohtml']
+	\}}
+NeoBundleLazy 'lambdalisue/vim-django-support', {
+	\ 'autoload': {
+	\  'filetypes': ['python', 'python3', 'djangohtml']
+	\}}
+NeoBundleLazy 'Flake8-vim', {
+	\ 'autoload': {
+	\  'filetypes': ['python', 'python3', 'djangohtml'],
+	\ },
+	\ 'build' :{
+	\  'mac' : 'pip install flake8',
+	\  'unix': 'pip install flake8',
+	\ }}
+NeoBundleLazy 'hynek/vim-python-pep8-indent', {
+	\ 'autoload': {
+	\  'filetypes': ['python', 'python3', 'djangohtml'],
+	\ }}
 NeoBundleLazy "davidhalter/jedi-vim", {
-  \ "autoload": {
-  \   "filetypes": ["python", "python3", "djangohtml"],
-  \ },
-  \ "build" : {
-  \   "mac"  : "pip install jedi",
-  \   "unix" : "pip install jedi",
-  \ }}
+	\ "autoload": {
+	\   "filetypes": ["python", "python3", "djangohtml"],
+	\ },
+	\ "build" : {
+	\   "mac"  : "pip install jedi",
+	\   "unix" : "pip install jedi",
+	\ }}
 NeoBundle 'elzr/vim-json'
 NeoBundle 'rbtnn/rabbit-ui.vim'
 NeoBundle 'rbtnn/rabbit-ui-collection.vim'
-NeoBundle 'ekalinin/Dockerfile.vim'
+NeoBundleLazy 'ekalinin/Dockerfile.vim', {
+	\ 'autoload': {
+	\  'filetypes' : ['Dockerfile']
+	\}}
 NeoBundle 'airblade/vim-rooter'
-NeoBundle 'wesleyche/SrcExpl'
+NeoBundleLazy 'wesleyche/SrcExpl',{
+	\ 'autoload':{
+	\  'commands':['SrcExplToggle']
+	\}}
 NeoBundle 'vim-scripts/Vim-R-plugin'
 NeoBundle 'mattn/emmet-vim'
 NeoBundle 'severin-lemaignan/vim-minimap'
+NeoBundleLazy 'vim-ruby/vim-ruby', {
+	\ 'autoload' : {
+	\   'filetypes' : ['ruby']
+	\ }}
+NeoBundleLazy 'thinca/vim-ref', {
+	\ 'autoload' : {
+	\   'commands' : ['Ref'],
+	\   'filetypes' : ['ruby']
+	\ }}
+NeoBundleLazy 'tpope/vim-rails', {
+	\ 'autoload' : {
+	\   'filetypes' : ['ruby']
+	\  }}
+
 call neobundle#end()
 filetype plugin indent on
 
 "setups for each plugin follows
 inoremap <C-j> <DOWN>
 inoremap <C-k> <UP>
-inoremap <C-l> <RIGHT>
-inoremap <C-h> <LEFT>
+"inoremap <C-l> <RIGHT>
+inoremap <C-h> <BackSpace>
 nnoremap ; :
 
-"setup for NERD-tree
+"setup for NERD-tree =========================================================
 nmap <F6> :NERDTreeToggle<CR> 
 
-"setup for lightline
+"setup for lightline ==========================================================
 let g:lightline = {
 	\ 'colorscheme' : 'jellybeans',
 	\ 'active':{
@@ -276,10 +324,10 @@ nnoremap <C-]> g<C-]>
 
 "setup for quickrun
 
-"set up for TaskList
+"set up for TaskList =========================================================
 nmap <leader>T <Plug>TaskList
 
-"set up for syntastic
+"set up for syntastic =========================================================
 set statusline+=%{SyntasticStatuslineFlag()}
 let g:syntastic_check_on_open = 0
 let g:syntastic_check_on_wq = 0
@@ -299,61 +347,86 @@ let g:syntastic_cpp_include_dirs = [
 let g:loaded_syntastic_python_pylint_checker = 0
 let g:syntastic_python_checkers = ['pyflakes', 'pep8']
 
-"set up for neocomplete
-let g:acp_enebleAtStartup = 0
-let g:neocomplete#enable_at_startup = 1
-let g:neocomplete#enable_smart_case = 1
-let g:neocomplete#sources#syntax#min_syntax_length = 3
-let g:neocompllete#lock_name_pattern = '\*ku\*'
+"set up for neocomplete =======================================================
+let s:hooks = neobundle#get_hooks('neocomplete.vim')
+function! s:hooks.on_source(bundle)
+	let g:acp_enebleAtStartup = 0
+	let g:neocomplete#enable_at_startup = 1
+	let g:neocomplete#enable_smart_case = 1
+	let g:neocomplete#sources#syntax#min_syntax_length = 3
+	let g:neocompllete#lock_name_pattern = '\*ku\*'
 
-let g:neocomplete#sources#dictionary#dictionaries = {
-		\ 'default' : '',
-		\ 'vimshell' : $HOME.'/.vimshell_hist',
-		\ 'scheme' : $HOME.'./.gosh_completions'
-			\}
+	let g:neocomplete#sources#dictionary#dictionaries = {
+			\ 'default' : '',
+			\ 'vimshell' : $HOME.'/.vimshell_hist',
+			\ 'scheme' : $HOME.'./.gosh_completions'
+				\}
 
-if !exists('g:neocompletei#keyword_patterns')
-	let g:neocomplete#keyword_patterns = {}
-endif
-let g:neocomplete#keyword_patterns['default'] = '\h\w*'
+	if !exists('g:neocompletei#keyword_patterns')
+		let g:neocomplete#keyword_patterns = {}
+	endif
+	let g:neocomplete#keyword_patterns['default'] = '\h\w*'
 
-inoremap <expr><G-g> neocomplete#undo_completion()
-inoremap <expr><G-l> neocomplete#complete_common_string()
-inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
-function! s:my_cr_function()
-	return pumvisible() ? neocomplete#close_popup() : s:ExCr()
+	inoremap <expr><C-g> neocomplete#undo_completion()
+	inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+	function! s:my_cr_function()
+		return pumvisible() ? neocomplete#close_popup() : s:ExCr()
+	endfunction
+	inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
+	inoremap <expr><C-k> pumvisible() ? "\<C-p>" : "\<UP>"
+	inoremap <expr><C-j> pumvisible() ? "\<C-n>" : "\<DOWN>"
+	inoremap <expr><C-l> pumvisible() ? neocomplete#close_popup() : "\<RIGHT>"
+	inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
+	inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
+	inoremap <expr><C-y> neocomplete#close_popup()
+	inoremap <expr><C-e> neocomplete#cancel_popup()."\<ESC>"
+	" NOTE: the flollowing line seems not working
+	inoremap <expr><C-[> neocomplete#cancel_popup()."\<C-[>""
+	inoremap <expr><Space> pumvisible() ? neocomplete#close_popup()."\<Space>" : "\<Space>"
+
+	autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+	autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+	autocmd FileType javascritp setlocal omnifunc=javascriptcomplete#CompleteJS
+	autocmd FileType xml setlocal omnifunc=xmlcomplete#completeTags
+
+	if !exists('g:neocomplete#sources#omni#input_patterns')
+		let g:neocomplete#sources#omni#input_patterns = {}
+	endif
+
+	let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
+	let g:neocomplete#sources#omni#input_patterns.c = '\[^.[:digit:] *\t]\%(\.\|->\)'
+	let g:neocomplete#sources#omni#input_patterns.cpp = '\[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
+	let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
+
+	" use clang_complete for cpp and c
+	if !exists('g:neocomplete#force_omni_input_patterns')
+	  let g:neocomplete#force_omni_input_patterns = {}
+	endif
+	let g:neocomplete#force_omni_input_patterns.c =
+		  \ '[^.[:digit:] *\t]\%(\.\|->\)\w*'
+	let g:neocomplete#force_omni_input_patterns.cpp =
+		  \ '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
+	let g:neocomplete#force_omni_input_patterns.objc =
+		  \ '\[\h\w*\s\h\?\|\h\w*\%(\.\|->\)'
+	let g:neocomplete#force_omni_input_patterns.objcpp =
+		  \ '\[\h\w*\s\h\?\|\h\w*\%(\.\|->\)\|\h\w*::\w*'
+
+	" use jedi-vim for python
+	autocmd FileType python setlocal omnifunc=jedi#completions
+	if !exists('g:neocomplete#force_omni_input_patterns')
+		let g:neocomplete#force_omni_input_patterns = {}
+	endif
+	let g:neocomplete#force_omni_input_patterns.python = '\h\w*\|[^. \t]\.\w*'
 endfunction
-inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
-inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
-inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
-inoremap <expr><C-y> neocomplete#close_popup()
-inoremap <expr><C-e> neocomplete#cancel_popup()
-inoremap <expr><C-[> neocomplete#cancel_popup()."\<ESC>"
-inoremap <expr><Space> pumvisible() ? neocomplete#close_popup()."\<Space>" : "\<Space>"
 
-autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-autocmd FileType javascritp setlocal omnifunc=javascriptcomplete#CompleteJS
-"autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-autocmd FileType xml setlocal omnifunc=xmlcomplete#completeTags
-
-if !exists('g:neocomplete#sources#omni#input_patterns')
-	let g:neocomplete#sources#omni#input_patterns = {}
-endif
-
-let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
-let g:neocomplete#sources#omni#input_patterns.c = '\[^.[:digit:] *\t]\%(\.\|->\)'
-let g:neocomplete#sources#omni#input_patterns.cpp = '\[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
-let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
-
-"setupfor vim-quickrun
+"setupfor vim-quickrun ========================================================
 let g:quickrun_config = get(g:, 'quickrun_config', {})
 let g:quickrun_config._ = {
 			\ 'outputter' : 'quickfix',
 			\ 'runner' : 'vimproc'
 			\}
 let g:quickrun_config.cpp = {
-			\ 'commadn' : 'g++',
+			\ 'command' : 'g++',
 			\ 'cmdopt' : '-Wall -Wextra',
 			\ 'hook/quickrunex/enable' : 1
 			\}
@@ -362,87 +435,83 @@ let g:quickrun_config['cpp11'] = {
 			\ 'cmdopt' : '-std=c++11 -Wall -Wextra',
 			\ 'hook/quickrunex/enable' : 1
 			\} 
-"setup for unite-boost-online-doc
+
+"setup for unite-boost-online-doc =============================================
 augroup cpp-unite
 	autocmd!
 	autocmd FileType cpp nnoremap <Space>ub :<C-u>UniteWithCursorWord boost-online-doc
 augroup END
 
-"setupforNERDTree
+"setupforNERDTree =============================================================
 nmap <F7> :NERDTreeToggle<CR> 
 
 
-"Makevars as makefile
+"Makevars as makefile =========================================================
 autocmd BufNewFile,BufRead {Makevars*} set filetype=make
 
+"setup for vim-markdown =======================================================
 ".md as markdown, instead of modula2
 autocmd BufNewFile,BufRead *.{md,mdwn,mkd,mkdn,mark*} set filetype=markdown
 "disable highlight italic in Markdown
 autocmd FileType markdown hi! def link markdownItalic LineNr"
-"setup for vim-markdown
 let g:vim_markdown_folding_diabled = 1
 let g:vim_markdown_math = 1
 
 
-"setup for clang_complete
-if !exists('g:neocomplete#force_omni_input_patterns')
-  let g:neocomplete#force_omni_input_patterns = {}
-endif
-let g:neocomplete#force_omni_input_patterns.c =
-	  \ '[^.[:digit:] *\t]\%(\.\|->\)\w*'
-let g:neocomplete#force_omni_input_patterns.cpp =
-	  \ '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
-let g:neocomplete#force_omni_input_patterns.objc =
-	  \ '\[\h\w*\s\h\?\|\h\w*\%(\.\|->\)'
-let g:neocomplete#force_omni_input_patterns.objcpp =
-	  \ '\[\h\w*\s\h\?\|\h\w*\%(\.\|->\)\|\h\w*::\w*'
-let g:clang_complete_auto = 0
-let g:clang_auto_select = 0
-let g:clang_default_keymappings = 0
-"let g:clang_use_library = 1
-
-"setup for jedi-vim
-autocmd FileType python setlocal completeopt-=preview
-let g:jedi#completions_enabled = 0
-let g:jedi#auto_vim_configuration = 0
-let g:jedi#popup_select_first = 0
-let g:jedi#rename_command = "<Leader>R"
-let g:jedi#goto_assignments_command = '<Leader>G'
-autocmd FileType python setlocal omnifunc=jedi#completions
-if !exists('g:neocomplete#force_omni_input_patterns')
-	let g:neocomplete#force_omni_input_patterns = {}
-endif
-let g:neocomplete#force_omni_input_patterns.python = '\h\w*\|[^. \t]\.\w*'
-
-"define Jq command
-command! -nargs=? Jq call s:Jq(<f-args>)
-function! s:Jq(...)
-	if 0 == a:0
-		let l:arg = "."
-	else
-		let l:arg = a:1
-	endif
-	execute "%! jq 95fe1a73-e2e2-4737-bea1-a44257c50fc8quot;" . l:arg . "95fe1a73-e2e2-4737-bea1-a44257c50fc8quot;"
+"setup for clang_complete =====================================================
+let s:hooks = neobundle#get_hooks('clang_complete')
+function! s:hooks.on_source(bundle)
+	let g:clang_complete_auto = 0
+	let g:clang_auto_select = 0
+	let g:clang_default_keymappings = 0
+	"let g:clang_use_library = 1
 endfunction
 
-"setup for vim-rooter
-let g:rooter_use_lcd = 1
-let g:rooter_patterns = ['tags', '.git', '.git/',  'Makefile', 'OMakeroot', 'CMakeLists.txt', '.svn', '.hg']
+"setup for jedi-vim ===========================================================
+let s:hooks = neobundle#get_hooks('jedi-vim')
+function! s:hooks.on_source(bundle)
+	autocmd FileType python setlocal completeopt-=preview
+	let g:jedi#completions_enabled = 0
+	let g:jedi#auto_vim_configuration = 0
+	let g:jedi#popup_select_first = 0
+	let g:jedi#rename_command = "<Leader>R"
+	let g:jedi#goto_assignments_command = '<Leader>G'
+endfunction
 
-"setup for SrcExpl
-let g:SrcExpl_refreshTime = 100
-let g:SrcExpl_isUpdateTags = 0
-let g:SrcExpl_winHeight = 11
-let g:SrcExpl_jumpKey="<CR>"
-let g:SrcExpl_gobackKey="<SPACE>"
-let g:SrcExpl_updateTagsCmd = "ctags --sort=foldcase -R ./"
-let g:SrcExpl_pluginList = [
-	\ "__Tagbar__",
-	\ "NERD_TREE_1",
-	\ "undotree_2",
-	\ "diffpanel_3"
-\ ]
+"define Jq command ============================================================
+"command! -nargs=? Jq call s:Jq(<f-args>)
+"function! s:Jq(...)
+"	if 0 == a:0
+"		let l:arg = "."
+"	else
+"		let l:arg = a:1
+"	endif
+"	execute "%! jq 95fe1a73-e2e2-4737-bea1-a44257c50fc8quot;" . l:arg . "95fe1a73-e2e2-4737-bea1-a44257c50fc8quot;"
+"endfunction
+
+"setup for vim-rooter =========================================================
+let g:rooter_use_lcd = 1
+let g:rooter_patterns = ['tags', '.git', '.git/',  
+			\'Makefile', 'OMakeroot',
+			\'CMakeLists.txt', '.svn', '.hg']
+
+"setup for SrcExpl ============================================================
 nmap <F9> :SrcExplToggle<CR>
+let s:hooks = neobundle#get_hooks('SrcExpl')
+function! s:hooks.on_source(bundle)
+	let g:SrcExpl_refreshTime = 100
+	let g:SrcExpl_isUpdateTags = 0
+	let g:SrcExpl_winHeight = 11
+	let g:SrcExpl_jumpKey="<CR>"
+	let g:SrcExpl_gobackKey="<SPACE>"
+	let g:SrcExpl_updateTagsCmd = "ctags --sort=foldcase -R ./"
+	let g:SrcExpl_pluginList = [
+		\ "__Tagbar__",
+		\ "NERD_TREE_1",
+		\ "undotree_2",
+		\ "diffpanel_3"
+	\ ]
+endfunction
 
 "setupfor emmet-vim
 let g:user_emmet_leader_key = "<C-m>"
