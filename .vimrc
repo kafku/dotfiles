@@ -27,7 +27,6 @@ set cmdheight=2
 set number
 set laststatus=2
 set hidden
-set nohlsearch "disable hlsearch for usage of easymotion
 set cursorline
 highlight cursorline term=reverse cterm=none ctermbg=234
 set cursorcolumn
@@ -55,67 +54,113 @@ highlight Specialkey ctermfg=233
 map Y y$
 
 filetype off
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
-Bundle 'gmarik/vundle'
-Bundle 'tpope/vim-fugitive'
-Bundle 'rails.vim'
-Bundle 'railscasts' 
-Bundle 'fugitive.vim'
-Bundle 'surround.vim'
-Bundle 'mru.vim'
-Bundle 'The-NERD-tree'
-Bundle 'The-NERD-Commenter'
-Bundle 'Lokaltog/vim-easymotion'
-Bundle 'Lokaltog/powerline-fonts'
-Bundle 'L9'
-Bundle 'FuzzyFinder'
-Bundle 'vim-scripts/AutoClose'
-Bundle 'Shougo/unite.vim'
-Bundle 'Shougo/neocomplete' 
-Bundle 'Shougo/neosnippet'
-Bundle 'Shougo/neosnippet-snippets'
-Bundle 'Shougo/vimproc'
-Bundle 'Shougo/VimShell'
-Bundle 'itchyny/lightline.vim'
-Bundle 'https://github.com/Yggdroot/indentLine'
-Bundle 'YankRing.vim'
-Bundle 'undotree.vim'
-Bundle 'easybuffer.vim'
-Bundle 'majutsushi/tagbar'
-Bundle 'scrooloose/syntastic' 
-Bundle 'thinca/vim-quickrun'
-Bundle 'vim-scripts/TasKList.vim'
-Bundle 'tagexplorer.vim'
-Bundle 'szw/vim-tags'
-Bundle 'python_ifold'
-Bundle 'thinca/vim-splash'
-Bundle 'vim-jp/cpp-vim'
-Bundle 'mattn/quickrunex-vim'
-Bundle 'tyru/open-browser.vim'
-Bundle 'mattn/webapi-vim'
-Bundle 'osyo-manga/unite-boost-online-doc'
-Bundle 'cocopon/colorswatch.vim'
-Bundle 'terryma/vim-multiple-cursors'
-Bundle 'AndrewRadev/linediff.vim'
-Bundle 'AndrewRadev/switch.vim'
-Bundle 'godlygeek/tabular'
-Bundle 'plasticboy/vim-markdown'
-Bundle 'kannokanno/previm' 
-Bundle 'Rip-Rip/clang_complete'
-Bundle 'Flake8-vim'
-Bundle 'hynek/vim-python-pep8-indent'
-Bundle 'davidhalter/jedi-vim'
-Bundle 'elzr/vim-json'
-Bundle 'rbtnn/rabbit-ui.vim'
-Bundle 'rbtnn/rabbit-ui-collection.vim'
-Bundle 'ekalinin/Dockerfile.vim'
-Bundle 'airblade/vim-rooter'
-Bundle 'wesleyche/SrcExpl'
-Bundle 'vim-scripts/Vim-R-plugin'
-Bundle 'mattn/emmet-vim'
-Bundle 'severin-lemaignan/vim-minimap'
+if has('vim_starting')
+	if !isdirectory(expand('~/.vim/bundle/neobundle.vim/'))
+		:call system("git clone git://github.com/Shougo/neobundle.vim ~/.vim/bundle/neobundle.vim")
+	endif
 
+	set rtp+=~/.vim/bundle/neobundle.vim/
+endif
+
+call neobundle#begin(expand('~/.vimr/bundle/'))
+let g:neobundle_default_git_protocol = 'https'
+NeoBundleFetch 'Shougo/neobundle.vim'
+
+NeoBundle 'tpope/vim-fugitive'
+NeoBundle 'tpope/vim-surround'
+NeoBundle 'rails.vim'
+NeoBundle 'railscasts' 
+NeoBundle 'The-NERD-tree'
+NeoBundle 'The-NERD-Commenter'
+NeoBundle 'Lokaltog/vim-easymotion'
+NeoBundle 'Lokaltog/powerline-fonts'
+NeoBundle 'L9'
+NeoBundle 'Townk/vim-autoclose'
+NeoBundle 'Shougo/vimproc.vim', {
+\ 'build' : {
+\     'windows' : 'tools\\update-dll-mingw',
+\     'cygwin' : 'make -f make_cygwin.mak',
+\     'mac' : 'make -f make_mac.mak',
+\     'linux' : 'make',
+\     'unix' : 'gmake',
+\    },
+\ }
+NeoBundle 'Shougo/unite.vim'
+NeoBundle 'Shougo/neomru.vim', {
+  \ 'depends' : 'Shougo/unite.vim'
+  \ }
+if has('lua')
+	NeoBundleLazy 'Shougo/neocomplete', {
+	\ 'depends' : 'Shougo/vimproc',
+	\ 'autolaod' : {'insert': 1,}
+	\ }
+endif
+NeoBundleLazy 'Shougo/neosnippet', {
+  \ 'depends' : 'Shougo/neosnippet-snippets',
+  \ 'autoload' : {
+  \   'insert' : 1,
+  \   'filetypes' : 'snippet',
+  \ }}
+NeoBundle 'Shougo/neosnippet-snippets'
+NeoBundleLazy 'Shougo/vimshell', {
+  \ 'depends' : 'Shougo/vimproc',
+  \ 'autoload' : {
+  \   'commands' : [{ 'name' : 'VimShell', 'complete' : 'customlist,vimshell#complete'},
+  \                 'VimShellExecute', 'VimShellInteractive',
+  \                 'VimShellTerminal', 'VimShellPop'],
+  \   'mappings' : ['<Plug>(vimshell_switch)']
+  \ 
+  \ }}
+NeoBundle 'itchyny/lightline.vim'
+NeoBundle 'https://github.com/Yggdroot/indentLine'
+NeoBundle 'YankRing.vim'
+NeoBundle 'undotree.vim'
+NeoBundle 'easybuffer.vim'
+NeoBundle 'majutsushi/tagbar'
+NeoBundle 'scrooloose/syntastic' 
+NeoBundleLazy 'thinca/vim-quickrun', {
+  \ 'autoload' : {
+  \   'mappings' : [['n', '\r']],
+  \   'commands' : ['QuickRun']
+  \ }}
+NeoBundle 'vim-scripts/TasKList.vim'
+NeoBundle 'tagexplorer.vim'
+NeoBundle 'szw/vim-tags'
+NeoBundle 'python_ifold'
+NeoBundle 'thinca/vim-splash'
+NeoBundle 'vim-jp/cpp-vim'
+NeoBundle 'mattn/quickrunex-vim'
+NeoBundle 'tyru/open-browser.vim'
+NeoBundle 'mattn/webapi-vim'
+NeoBundle 'osyo-manga/unite-boost-online-doc'
+NeoBundle 'cocopon/colorswatch.vim'
+NeoBundle 'terryma/vim-multiple-cursors'
+NeoBundle 'AndrewRadev/linediff.vim'
+NeoBundle 'AndrewRadev/switch.vim'
+NeoBundle 'godlygeek/tabular'
+NeoBundle 'plasticboy/vim-markdown'
+NeoBundle 'kannokanno/previm' 
+NeoBundle 'Rip-Rip/clang_complete'
+NeoBundle 'Flake8-vim'
+NeoBundle 'hynek/vim-python-pep8-indent'
+NeoBundleLazy "davidhalter/jedi-vim", {
+  \ "autoload": {
+  \   "filetypes": ["python", "python3", "djangohtml"],
+  \ },
+  \ "build" : {
+  \   "mac"  : "pip install jedi",
+  \   "unix" : "pip install jedi",
+  \ }}
+NeoBundle 'elzr/vim-json'
+NeoBundle 'rbtnn/rabbit-ui.vim'
+NeoBundle 'rbtnn/rabbit-ui-collection.vim'
+NeoBundle 'ekalinin/Dockerfile.vim'
+NeoBundle 'airblade/vim-rooter'
+NeoBundle 'wesleyche/SrcExpl'
+NeoBundle 'vim-scripts/Vim-R-plugin'
+NeoBundle 'mattn/emmet-vim'
+NeoBundle 'severin-lemaignan/vim-minimap'
+call neobundle#end()
 filetype plugin indent on
 
 "setups for each plugin follows
@@ -201,6 +246,7 @@ let g:indentLine_color_term=233
 let g:indentLine_char='|'
 
 "setup for easymotion
+set nohlsearch "disable hlsearch for usage of easymotion
 let g:EasyMotion_keys='hklyuiopnm,qwertzxcvbasdgjf'
 let g:EasyMotion_smartcase=1
 nmap s <Plug>(easymotion-s2)
@@ -361,6 +407,7 @@ let g:jedi#completions_enabled = 0
 let g:jedi#auto_vim_configuration = 0
 let g:jedi#popup_select_first = 0
 let g:jedi#rename_command = "<Leader>R"
+let g:jedi#goto_assignments_command = '<Leader>G'
 autocmd FileType python setlocal omnifunc=jedi#completions
 if !exists('g:neocomplete#force_omni_input_patterns')
 	let g:neocomplete#force_omni_input_patterns = {}
