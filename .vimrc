@@ -72,8 +72,7 @@ Bundle 'L9'
 Bundle 'FuzzyFinder'
 Bundle 'vim-scripts/AutoClose'
 Bundle 'Shougo/unite.vim'
-Bundle 'Shougo/neocomplcache'
-"this require lua"Bundle 'Shougo/neocmplete' 
+Bundle 'Shougo/neocomplete' 
 Bundle 'Shougo/neosnippet'
 Bundle 'Shougo/neosnippet-snippets'
 Bundle 'Shougo/vimproc'
@@ -103,7 +102,10 @@ Bundle 'AndrewRadev/switch.vim'
 Bundle 'godlygeek/tabular'
 Bundle 'plasticboy/vim-markdown'
 Bundle 'kannokanno/previm' 
-"Bundle 'davidhalter/jedi-vim' this requires +python +python3
+Bundle 'Rip-Rip/clang_complete'
+Bundle 'Flake8-vim'
+Bundle 'hynek/vim-python-pep8-indent'
+Bundle 'davidhalter/jedi-vim'
 Bundle 'elzr/vim-json'
 Bundle 'rbtnn/rabbit-ui.vim'
 Bundle 'rbtnn/rabbit-ui-collection.vim'
@@ -249,54 +251,54 @@ let g:syntastic_cpp_include_dirs = [
 	\ $R_PKG_PATH.'/RcppArmadillo/include']
 "let g:syntastic_cpp_complier_option = '-std=c++11'
 let g:loaded_syntastic_python_pylint_checker = 0
-let g:syntastic_python_checker = ['pyflakes', 'pep8']
+let g:syntastic_python_checkers = ['pyflakes', 'pep8']
 
-"set up for neocomplcache
+"set up for neocomplete
 let g:acp_enebleAtStartup = 0
-let g:neocomplcache_enable_at_startup = 1
-let g:neocomplcache_enable_smart_case = 1
-let g:neocomplcache_enable_min_syntax_length = 3
-let g:neocomplcache_lock_name_pattern = '\*ku\*'
+let g:neocomplete#enable_at_startup = 1
+let g:neocomplete#enable_smart_case = 1
+let g:neocomplete#sources#syntax#min_syntax_length = 3
+let g:neocompllete#lock_name_pattern = '\*ku\*'
 
-let g:neocomplcache_dictionary_filetype_list = {
+let g:neocomplete#sources#dictionary#dictionaries = {
 		\ 'default' : '',
 		\ 'vimshell' : $HOME.'/.vimshell_hist',
 		\ 'scheme' : $HOME.'./.gosh_completions'
 			\}
 
-if !exists('g:neocomplcache_keyword_patterns')
-	let g:neocomplcache_keyword_patterns = {}
+if !exists('g:neocompletei#keyword_patterns')
+	let g:neocomplete#keyword_patterns = {}
 endif
-let g:neocomplcache_keyword_patterns['default'] = '\h\w*'
+let g:neocomplete#keyword_patterns['default'] = '\h\w*'
 
-imap <expr><TAB> neocomplcache#sources#snippets_complete#expandable() ? "\<Plug>(neocomplcache_snippets_force_expand)" : pumvisible() ? "<C-n>" : "\<TAB>"
-inoremap <expr><G-g> neocomplcache#undo_completion()
-inoremap <expr><G-l> neocomplcache#complete_common_string()
+inoremap <expr><G-g> neocomplete#undo_completion()
+inoremap <expr><G-l> neocomplete#complete_common_string()
 inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
 function! s:my_cr_function()
-	return pumvisible() ? neocomplcache#smart_close_popup() : s:ExCr()
+	return pumvisible() ? neocomplete#close_popup() : s:ExCr()
 endfunction
 inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
-inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
-inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
-inoremap <expr><C-y> neocomplcache#close_popup()
-inoremap <expr><C-e> neocomplcache#cancel_popup()
-inoremap <expr><C-[> neocomplcache#cancel_popup()."\<ESC>"
-inoremap <expr><Space> pumvisible() ? neocomplcache#close_popup()."\<Space>" : "\<Space>"
+inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
+inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
+inoremap <expr><C-y> neocomplete#close_popup()
+inoremap <expr><C-e> neocomplete#cancel_popup()
+inoremap <expr><C-[> neocomplete#cancel_popup()."\<ESC>"
+inoremap <expr><Space> pumvisible() ? neocomplete#close_popup()."\<Space>" : "\<Space>"
 
 autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
 autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
 autocmd FileType javascritp setlocal omnifunc=javascriptcomplete#CompleteJS
-autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+"autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
 autocmd FileType xml setlocal omnifunc=xmlcomplete#completeTags
 
-if !exists('g:neocomplcache_omni_patterns')
-	let g:neocomplcache_omni_patterns ={}
+if !exists('g:neocomplete#sources#omni#input_patterns')
+	let g:neocomplete#sources#omni#input_patterns = {}
 endif
 
-let g:neocomplcache_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
-let g:neocomplcache_omni_patterns.c = '\[^.[:digit:] *\t]\%(\.\|->\)'
-let g:neocomplcache_omni_patterns.cpp = '\[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
+let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
+let g:neocomplete#sources#omni#input_patterns.c = '\[^.[:digit:] *\t]\%(\.\|->\)'
+let g:neocomplete#sources#omni#input_patterns.cpp = '\[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
+let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
 
 "setupfor vim-quickrun
 let g:quickrun_config = get(g:, 'quickrun_config', {})
@@ -335,14 +337,35 @@ autocmd FileType markdown hi! def link markdownItalic LineNr"
 let g:vim_markdown_folding_diabled = 1
 let g:vim_markdown_math = 1
 
+
+"setup for clang_complete
+if !exists('g:neocomplete#force_omni_input_patterns')
+  let g:neocomplete#force_omni_input_patterns = {}
+endif
+let g:neocomplete#force_omni_input_patterns.c =
+	  \ '[^.[:digit:] *\t]\%(\.\|->\)\w*'
+let g:neocomplete#force_omni_input_patterns.cpp =
+	  \ '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
+let g:neocomplete#force_omni_input_patterns.objc =
+	  \ '\[\h\w*\s\h\?\|\h\w*\%(\.\|->\)'
+let g:neocomplete#force_omni_input_patterns.objcpp =
+	  \ '\[\h\w*\s\h\?\|\h\w*\%(\.\|->\)\|\h\w*::\w*'
+let g:clang_complete_auto = 0
+let g:clang_auto_select = 0
+let g:clang_default_keymappings = 0
+"let g:clang_use_library = 1
+
 "setup for jedi-vim
-"autocmd FileType python setlocal completeopt-=preview
-"let g:jedi#popup_select_first = 0
-"let g:jedi#rename_command = "<Leader>R"
-"if !exists('g:neocomplcache_force_omni_patterns')
-"	let g:neocomplcache_force_omni_patterns = {}
-"endif
-"let g:neocomplcache_force_omni_patterns.python = '[^. \t]\.\w*'
+autocmd FileType python setlocal completeopt-=preview
+let g:jedi#completions_enabled = 0
+let g:jedi#auto_vim_configuration = 0
+let g:jedi#popup_select_first = 0
+let g:jedi#rename_command = "<Leader>R"
+autocmd FileType python setlocal omnifunc=jedi#completions
+if !exists('g:neocomplete#force_omni_input_patterns')
+	let g:neocomplete#force_omni_input_patterns = {}
+endif
+let g:neocomplete#force_omni_input_patterns.python = '\h\w*\|[^. \t]\.\w*'
 
 "define Jq command
 command! -nargs=? Jq call s:Jq(<f-args>)
