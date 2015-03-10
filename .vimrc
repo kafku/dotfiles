@@ -66,6 +66,13 @@ call neobundle#begin(expand('~/.vimr/bundle/'))
 let g:neobundle_default_git_protocol = 'https'
 NeoBundleFetch 'Shougo/neobundle.vim'
 
+NeoBundleLazy 'junegunn/vim-easy-align', {
+  \ 'autoload': {
+  \   'commands' : ['EasyAlign'],
+  \   'mappings' : ['<Plug>(EasyAlign)'],
+  \ }}
+NeoBundleLazy 'tpope/vim-endwise', {
+  \ 'autoload' : { 'insert' : 1,}} 
 NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'tpope/vim-surround'
 NeoBundle 'railscasts' 
@@ -86,10 +93,11 @@ NeoBundle 'Shougo/vimproc.vim', {
 \     'unix' : 'gmake',
 \    },
 \ }
-NeoBundle 'Shougo/unite.vim'
-NeoBundle 'Shougo/neomru.vim', {
-  \ 'depends' : 'Shougo/unite.vim'
-  \ }
+NeoBundleLazy 'Shougo/unite.vim', {
+			\ 'autoload': {
+			\  'commands': ['Unite']
+			\ }}
+NeoBundle 'Shougo/neomru.vim'
 if has('lua')
 	NeoBundleLazy 'Shougo/neocomplete.vim', {
 	\ 'depends' : 'Shougo/vimproc.vim',
@@ -192,11 +200,15 @@ NeoBundleLazy 'wesleyche/SrcExpl',{
 	\  'commands':['SrcExplToggle']
 	\}}
 NeoBundle 'vim-scripts/Vim-R-plugin'
-NeoBundle 'mattn/emmet-vim'
+NeoBundleLazy 'mattn/emmet-vim', {
+  \ 'autoload' : {
+  \   'filetypes' : ['html', 'html5', 'eruby', 'jsp', 'xml', 'css', 'scss', 'coffee'],
+  \   'commands' : ['<Plug>ZenCodingExpandNormal']
+  \ }}
 NeoBundle 'severin-lemaignan/vim-minimap'
 NeoBundleLazy 'vim-ruby/vim-ruby', {
 	\ 'autoload' : {
-	\   'filetypes' : ['ruby']
+	\   'filetypes' : ['ruby', 'eruby']
 	\ }}
 NeoBundleLazy 'thinca/vim-ref', {
 	\ 'autoload' : {
@@ -207,7 +219,10 @@ NeoBundleLazy 'tpope/vim-rails', {
 	\ 'autoload' : {
 	\   'filetypes' : ['ruby']
 	\  }}
-
+NeoBundle 'hail2u/vim-css3-syntax'
+NeoBundle 'othree/html5.vim'
+NeoBundle 'moll/vim-node'
+NeoBundle 'pangloss/vim-javascript'
 call neobundle#end()
 filetype plugin indent on
 
@@ -375,7 +390,7 @@ function! s:hooks.on_source(bundle)
 	inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 	inoremap <expr><C-k> pumvisible() ? "\<C-p>" : "\<UP>"
 	inoremap <expr><C-j> pumvisible() ? "\<C-n>" : "\<DOWN>"
-	inoremap <expr><C-l> pumvisible() ? neocomplete#close_popup() : "\<RIGHT>"
+	inoremap <expr><C-l> pumvisible() ? neocomplete#close_popup()."\<RIGHT>" : "\<RIGHT>"
 	inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
 	inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
 	inoremap <expr><C-y> neocomplete#close_popup()
@@ -513,7 +528,13 @@ function! s:hooks.on_source(bundle)
 	\ ]
 endfunction
 
-"setupfor emmet-vim
+"setupfor emmet-vim ===========================================================
 let g:user_emmet_leader_key = "<C-m>"
 let g:user_emmet_install_global = 0
 autocmd FileType html,css EmmetInstall
+
+"setup for vim-easy-align =====================================================
+vmap <Enter> <Plug>(EasyAlign)
+nmap <Leader>a <Plug>(EasyAlign)
+
+
