@@ -154,7 +154,15 @@ NeoBundle 'AndrewRadev/linediff.vim'
 NeoBundle 'AndrewRadev/switch.vim'
 NeoBundle 'godlygeek/tabular'
 NeoBundleLazy 'plasticboy/vim-markdown'
-NeoBundle 'kannokanno/previm' 
+NeoBundleLazy 'kannokanno/previm', {
+	\ 'autoload': {
+	\  'commands': ['PrevimOpen'],
+	\  'filetypes': ['markdown']
+	\ },
+	\ 'build': {
+	\  'mac': "pip install docutils",
+	\  'unix': "pip install docutils"
+	\ }}
 NeoBundleLazy 'Rip-Rip/clang_complete', {
 	\ 'autoload': {
 	\  'filetypes': ['cpp', 'c', 'h', 'hpp'],
@@ -201,10 +209,10 @@ NeoBundleLazy 'wesleyche/SrcExpl',{
 	\}}
 NeoBundle 'vim-scripts/Vim-R-plugin'
 NeoBundleLazy 'mattn/emmet-vim', {
-  \ 'autoload' : {
-  \   'filetypes' : ['html', 'html5', 'eruby', 'jsp', 'xml', 'css', 'scss', 'coffee'],
-  \   'commands' : ['<Plug>ZenCodingExpandNormal']
-  \ }}
+	\ 'autoload' : {
+	\   'filetypes' : ['html', 'html5', 'eruby', 'jsp', 'xml', 'css', 'scss', 'coffee'],
+	\   'commands' : ['<Plug>ZenCodingExpandNormal']
+	\ }}
 NeoBundle 'severin-lemaignan/vim-minimap'
 NeoBundleLazy 'vim-ruby/vim-ruby', {
 	\ 'autoload' : {
