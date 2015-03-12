@@ -83,7 +83,7 @@ NeoBundle 'The-NERD-Commenter'
 NeoBundle 'Lokaltog/vim-easymotion'
 NeoBundle 'Lokaltog/powerline-fonts'
 NeoBundle 'L9'
-NeoBundleLazy 'AutoClose.vim', {
+NeoBundleLazy 'cohama/lexima.vim', {
 	\ 'autoload': {
 	\  'insert': 1
 	\}}
@@ -180,11 +180,8 @@ NeoBundleLazy 'lambdalisue/vim-django-support', {
 	\}}
 NeoBundleLazy 'andviro/flake8-vim', {
 	\ 'autoload': {
+	\  'command': ['PyFlake', 'PyFlakeAuto'],
 	\  'filetypes': ['python', 'python3', 'djangohtml'],
-	\ },
-	\ 'build' :{
-	\  'mac' : 'pip install flake8 autopep8 frosted',
-	\  'unix': 'pip install flake8 autopep8 frosted',
 	\ }}
 NeoBundleLazy 'hynek/vim-python-pep8-indent', {
 	\ 'autoload': {
@@ -557,4 +554,11 @@ function! s:hooks.on_source(bundle)
 	let g:PyFlakeCWindow = 6
 	let g:PyFlakeSigns = 1
 	let g:PyFlakeSignStart = 1
+endfunction
+
+"setup for lexima.vim ========================================================
+let s:hooks = neobundle#get_hooks('lexima.vim')
+function! s:hooks.on_source(bundle)
+	""call lexima#add_rule({'at': '\%#.*[-0-9a-zA-Z_,:]', 'char': '{', 'input': '{'})
+	""call lexima#add_rule({'at': '\%#\n\s*}', 'char': '}', 'input': '}', 'delete': '}'})
 endfunction
