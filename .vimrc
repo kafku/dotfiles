@@ -62,7 +62,7 @@ if has('vim_starting')
 	set rtp+=~/.vim/bundle/neobundle.vim/
 endif
 
-call neobundle#begin(expand('~/.vimr/bundle/'))
+call neobundle#begin(expand('~/.vim/bundle/'))
 let g:neobundle_default_git_protocol = 'https'
 NeoBundleFetch 'Shougo/neobundle.vim'
 
@@ -83,7 +83,10 @@ NeoBundle 'The-NERD-Commenter'
 NeoBundle 'Lokaltog/vim-easymotion'
 NeoBundle 'Lokaltog/powerline-fonts'
 NeoBundle 'L9'
-NeoBundle 'Townk/vim-autoclose'
+NeoBundleLazy 'AutoClose.vim', {
+	\ 'autoload': {
+	\  'insert': 1
+	\}}
 NeoBundle 'Shougo/vimproc.vim', {
 \ 'build' : {
 \     'windows' : 'tools\\update-dll-mingw',
@@ -175,13 +178,13 @@ NeoBundleLazy 'lambdalisue/vim-django-support', {
 	\ 'autoload': {
 	\  'filetypes': ['python', 'python3', 'djangohtml']
 	\}}
-NeoBundleLazy 'Flake8-vim', {
+NeoBundleLazy 'andviro/flake8-vim', {
 	\ 'autoload': {
 	\  'filetypes': ['python', 'python3', 'djangohtml'],
 	\ },
 	\ 'build' :{
-	\  'mac' : 'pip install flake8',
-	\  'unix': 'pip install flake8',
+	\  'mac' : 'pip install flake8 autopep8 frosted',
+	\  'unix': 'pip install flake8 autopep8 frosted',
 	\ }}
 NeoBundleLazy 'hynek/vim-python-pep8-indent', {
 	\ 'autoload': {
@@ -545,4 +548,13 @@ autocmd FileType html,css EmmetInstall
 vmap <Enter> <Plug>(EasyAlign)
 nmap <Leader>a <Plug>(EasyAlign)
 
-
+"setup for flake8-vim =========================================================
+let s:hooks = neobundle#get_hooks('flake8-vim')
+function! s:hooks.on_source(bundle)
+	let g:PyFlakeOnWrite = 0
+	let g:PyFlakeCheckers = 'pep8,mecab,frosted'
+	let g:PyFlakeDefaultComplexity = 10
+	let g:PyFlakeCWindow = 6
+	let g:PyFlakeSigns = 1
+	let g:PyFlakeSignStart = 1
+endfunction
