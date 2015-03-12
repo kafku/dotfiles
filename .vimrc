@@ -124,14 +124,14 @@ NeoBundleLazy 'Shougo/vimshell', {
   \ 
   \ }}
 NeoBundle 'itchyny/lightline.vim'
-NeoBundle 'https://github.com/Yggdroot/indentLine'
+NeoBundle 'Yggdroot/indentLine'
 NeoBundle 'YankRing.vim'
 NeoBundle 'undotree.vim'
 NeoBundle 'easybuffer.vim'
 NeoBundle 'scrooloose/syntastic', {
 	\ 'build':{
-	\  'mac': 'pip install pyflakes pep8',
-	\  'unix': 'pip install pyflakes pep8'
+	\  'mac': 'pip install frosted pep8',
+	\  'unix': 'pip install frosted pep8'
 	\}}
 NeoBundleLazy 'thinca/vim-quickrun', {
   \ 'autoload' : {
@@ -190,10 +190,10 @@ NeoBundleLazy 'hynek/vim-python-pep8-indent', {
 NeoBundleLazy "davidhalter/jedi-vim", {
 	\ "autoload": {
 	\   "filetypes": ["python", "python3", "djangohtml"],
-	\ },
-	\ "build" : {
-	\   "mac"  : "pip install jedi",
-	\   "unix" : "pip install jedi",
+	\ }}
+NeoBundleLazy "jmcantrell/vim-virtualenv", {
+	\ "autoload": {
+	\   "filetypes": ["python", "python3", "djangohtml"],
 	\ }}
 NeoBundle 'elzr/vim-json'
 NeoBundle 'rbtnn/rabbit-ui.vim'
@@ -207,7 +207,10 @@ NeoBundleLazy 'wesleyche/SrcExpl',{
 	\ 'autoload':{
 	\  'commands':['SrcExplToggle']
 	\}}
-NeoBundle 'vim-scripts/Vim-R-plugin'
+NeoBundleLazy 'vim-scripts/Vim-R-plugin',{
+	\ 'autoload': {
+	\ 'filetypes': ['r']
+	\ }}
 NeoBundleLazy 'mattn/emmet-vim', {
 	\ 'autoload' : {
 	\   'filetypes' : ['html', 'html5', 'eruby', 'jsp', 'xml', 'css', 'scss', 'coffee'],
@@ -312,11 +315,11 @@ if !has('gui_running')
 	set t_Co=256
 endif
 
-"setup for indentLine
+"setup for indentLine ========================================================
 let g:indentLine_color_term=233
 let g:indentLine_char='|'
 
-"setup for easymotion
+"setup for easymotion ========================================================
 set nohlsearch "disable hlsearch for usage of easymotion
 let g:EasyMotion_keys='hklyuiopnm,qwertzxcvbasdgjf'
 let g:EasyMotion_smartcase=1
@@ -325,11 +328,11 @@ nmap t <Plug>(easymotion-t2)
 map / <Plug>(easymotion-sn)
 omap / <Plug>(easymotion-tn)
 
-"setup for YankRing
+"setup for YankRing ==========================================================
 set clipboard+=unnamedplus,unnamed
 nmap ,y :YRShow<CR>
 
-"setup for undotree
+"setup for undotree ==========================================================
 nmap <F5> :UndotreeToggle<CR>
 let g:undotree_SetFocusWhenToggle = 1
 let g:undotree_SplitLocation = 'topleft'
@@ -341,11 +344,11 @@ let g:undotree_TreeNodeShape = '*'
 let g:undotree_HighlightChangedText = 1
 let g:undotree_HighlightSyntax = "UnderLined"
 
-"setup for tagbar
+"setup for tagbar ============================================================
 nmap <F8> :TagbarToggle<CR>
 nnoremap <C-]> g<C-]>
 
-"setup for quickrun
+"setup for quickrun ==========================================================
 
 "set up for TaskList =========================================================
 nmap <leader>T <Plug>TaskList
@@ -367,8 +370,8 @@ let g:syntastic_cpp_include_dirs = [
 	\ $R_PKG_PATH.'/Rcpp/include',
 	\ $R_PKG_PATH.'/RcppArmadillo/include']
 "let g:syntastic_cpp_complier_option = '-std=c++11'
-let g:loaded_syntastic_python_pylint_checker = 0
-let g:syntastic_python_checkers = ['pyflakes', 'pep8']
+let g:syntastic_aggregate_errors = 1
+let g:syntastic_python_checkers = ['frosted', 'pep8'] 
 
 "set up for neocomplete =======================================================
 let s:hooks = neobundle#get_hooks('neocomplete.vim')
@@ -562,3 +565,6 @@ function! s:hooks.on_source(bundle)
 	""call lexima#add_rule({'at': '\%#.*[-0-9a-zA-Z_,:]', 'char': '{', 'input': '{'})
 	""call lexima#add_rule({'at': '\%#\n\s*}', 'char': '}', 'input': '}', 'delete': '}'})
 endfunction
+
+"setup for vim-R-plugin =======================================================
+autocmd FileType r,rmarkdown setlocal ts=4 sw=4 sts=4 et
