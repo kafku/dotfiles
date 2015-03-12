@@ -33,9 +33,27 @@ if [ -z "$TMUX" ]; then
 	if [ -e /opt/intel/composer_xe_2015/bin/compilervars.sh ]; then
 		source /opt/intel/composer_xe_2015/bin/compilervars.sh intel64
 	fi
+
 fi
 
-
+# rbev
 if [ -e $HOME/.rbenv/bin ]; then
 	eval "$(rbenv init -)"
 fi
+
+# python startup
+if [ -e $HOME/.pythonrc ]; then
+	export PYTHONSTARTUP=$HOME/.pythonrc
+fi
+
+# pythonz
+if [ ! -e $HOME/.pythonz/ ]; then
+	curl -kL https://raw.github.com/saghul/pythonz/master/pythonz-install | bash
+fi
+if [ -s $HOME/.pythonz/etc/bashrc ]; then
+	source $HOME/.pythonz/etc/bashrc
+fi
+
+# direnv
+type direnv > /dev/null 2>&1 && eval "$(direnv hook bash)"
+
