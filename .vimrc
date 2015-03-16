@@ -372,6 +372,15 @@ let g:tagbar_type_markdown = {
 		\ 'k:Heading_L3'
 	\ ]
 \ }
+let g:tagbar_type_css = {
+	\ 'ctagstype' : 'css',
+	\ 'kinds' : [
+		\ 'c:classes',
+		\ 't:tags',
+		\ 'i:identities',
+		\ 'm:medias'
+	\ ]
+\ }
 nmap <F8> :TagbarToggle<CR>
 nnoremap <C-]> g<C-]>
 
