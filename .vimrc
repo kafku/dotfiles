@@ -71,6 +71,7 @@ NeoBundle 'nanotech/jellybeans.vim'
 NeoBundle 'tomasr/molokai'
 NeoBundle 'vim-scripts/Wombat'
 
+NeoBundle 'ervandew/screen'
 NeoBundleLazy 'junegunn/vim-easy-align', {
   \ 'autoload': {
   \   'commands' : ['EasyAlign'],
@@ -219,7 +220,7 @@ NeoBundleLazy 'wesleyche/SrcExpl',{
 	\}}
 NeoBundleLazy 'vim-scripts/Vim-R-plugin',{
 	\ 'autoload': {
-	\ 'filetypes': ['r']
+	\  'filetypes': ['r', 'rnoweb', 'rdoc', 'rhelp', 'rrst', 'rmd' ]
 	\ }}
 NeoBundleLazy 'mattn/emmet-vim', {
 	\ 'autoload' : {
@@ -424,7 +425,7 @@ function! s:hooks.on_source(bundle)
 	let g:neocomplete#enable_at_startup = 1
 	let g:neocomplete#enable_smart_case = 1
 	let g:neocomplete#sources#syntax#min_syntax_length = 3
-	let g:neocompllete#lock_name_pattern = '\*ku\*'
+	let g:neocomplete#lock_name_pattern = '\*ku\*'
 
 	let g:neocomplete#sources#dictionary#dictionaries = {
 			\ 'default' : '',
@@ -442,6 +443,14 @@ function! s:hooks.on_source(bundle)
 	function! s:my_cr_function()
 		return pumvisible() ? neocomplete#close_popup() : s:ExCr()
 	endfunction
+	
+	"inoremap <expr><TAB>  pumvisible() ? "\<C-n>" :
+	"        \ <SID>check_back_space() ? "\<TAB>" :
+	"        \ neocomplete#start_manual_complete()
+	"function! s:check_back_space()
+	"	let col = col('.') - 1
+	"	return !col || getline('.')[col - 1]  =~ '\s'
+	"endfunction
 	inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 	inoremap <expr><C-k> pumvisible() ? "\<C-p>" : "\<UP>"
 	inoremap <expr><C-j> pumvisible() ? "\<C-n>" : "\<DOWN>"
@@ -458,15 +467,22 @@ function! s:hooks.on_source(bundle)
 	autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
 	autocmd FileType javascritp setlocal omnifunc=javascriptcomplete#CompleteJS
 	autocmd FileType xml setlocal omnifunc=xmlcomplete#completeTags
+	autocmd FileType python setlocal omnifunc=jedi#completions
+	autocmd FileType r,rnoweb,rdoc,rhelp,rrst,rmd setlocal omnifunc=rcomplete#CompleteR
+
+	"if !exists('g:neocomplete#sources#omni#functions')
+	"	let g:neocomplete#sources#omni#functions = {}
+	"endif
+	"let g:neocomplete#sources#omni#functions.r = 'rcomplete#CompleteR'
 
 	if !exists('g:neocomplete#sources#omni#input_patterns')
 		let g:neocomplete#sources#omni#input_patterns = {}
 	endif
-
 	let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
 	let g:neocomplete#sources#omni#input_patterns.c = '\[^.[:digit:] *\t]\%(\.\|->\)'
 	let g:neocomplete#sources#omni#input_patterns.cpp = '\[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
 	let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
+	let g:neocomplete#sources#omni#input_patterns.r = '[[:alnum:].\\]\+'
 
 	" use clang_complete for cpp and c
 	if !exists('g:neocomplete#force_omni_input_patterns')
@@ -480,13 +496,8 @@ function! s:hooks.on_source(bundle)
 		  \ '\[\h\w*\s\h\?\|\h\w*\%(\.\|->\)'
 	let g:neocomplete#force_omni_input_patterns.objcpp =
 		  \ '\[\h\w*\s\h\?\|\h\w*\%(\.\|->\)\|\h\w*::\w*'
-
-	" use jedi-vim for python
-	autocmd FileType python setlocal omnifunc=jedi#completions
-	if !exists('g:neocomplete#force_omni_input_patterns')
-		let g:neocomplete#force_omni_input_patterns = {}
-	endif
 	let g:neocomplete#force_omni_input_patterns.python = '\h\w*\|[^. \t]\.\w*'
+	let g:neocomplete#force_omni_input_patterns.r = '\h\w*::\w*\|\h\w*:::\w*\|\h\w*\$\w*\|[^.[:digit:] *\t]\.\w*'
 endfunction
 
 "setupfor vim-quickrun ========================================================
@@ -611,4 +622,22 @@ function! s:hooks.on_source(bundle)
 endfunction
 
 "setup for vim-R-plugin =======================================================
-autocmd FileType r,rmarkdown setlocal ts=4 sw=4 sts=4 et
+"note that vim-r-plugin requires vimcom package and X server
+autocmd FileType r,rnoweb,rdoc,rhelp,rrst,rmd  setlocal ts=4 sw=4 sts=4 et
+let s:hooks = neobundle#get_hooks('Vim-R-plugin')
+function! s:hooks.on_source(bundle)
+	let g:vimrplugin_vimcom_wait = 5000
+	let g:vimrplugin_applescript = 0
+	let g:ScreenImpl = 'Tmux'
+	let g:vimrplugin_vsplit = 0
+	let g:ScreenShellInitialFocus = 'shell'
+	let g:vimrplugin_notmuxconf = 1
+	let g:vimrplugin_tmux_title = "Vim-R"
+	let g:vimrplugin_screenplugin = 1
+	let g:vimrplugin_conqueplugin = 0
+	let g:vimrplugin_map_r = 0
+	let g:vimrplugin_vimpager = "no"
+	nmap <F2> <Plug>RStart
+	nmap <C-m> <Plug>RDSendLine
+	vmap <C-m> <Plug>RDSendSelection
+endfunction
