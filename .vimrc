@@ -172,11 +172,19 @@ NeoBundleLazy 'Rip-Rip/clang_complete', {
 	\ 'autoload': {
 	\  'filetypes': ['cpp', 'c', 'h', 'hpp'],
 	\ }}
+NeoBundleLazy 'heavenshell/vim-pydocstring', {
+	\ 'autoload': {
+	\  'filetypes': ['python', 'python3', 'djangohtml']
+	\}}
 NeoBundleLazy 'python_ifold', {
 	\ 'autoload': {
 	\  'filetypes': ['python', 'python3', 'djangohtml']
 	\}}
 NeoBundleLazy 'lambdalisue/vim-django-support', {
+	\ 'autoload': {
+	\  'filetypes': ['python', 'python3', 'djangohtml']
+	\}}
+NeoBundleLazy 'alfredodexa/pytest.vim', {
 	\ 'autoload': {
 	\  'filetypes': ['python', 'python3', 'djangohtml']
 	\}}
