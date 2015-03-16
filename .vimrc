@@ -66,6 +66,11 @@ call neobundle#begin(expand('~/.vim/bundle/'))
 let g:neobundle_default_git_protocol = 'https'
 NeoBundleFetch 'Shougo/neobundle.vim'
 
+NeoBundle 'w0ng/vim-hybrid'
+NeoBundle 'nanotech/jellybeans.vim'
+NeoBundle 'tomasr/molokai'
+NeoBundle 'vim-scripts/Wombat'
+
 NeoBundleLazy 'junegunn/vim-easy-align', {
   \ 'autoload': {
   \   'commands' : ['EasyAlign'],
@@ -75,7 +80,6 @@ NeoBundleLazy 'tpope/vim-endwise', {
   \ 'autoload' : { 'insert' : 1,}} 
 NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'tpope/vim-surround'
-NeoBundle 'railscasts' 
 NeoBundleLazy 'The-NERD-tree', {
 	\ 'autoload': {'commands': 'NERDTreeToggle'}
 	\ }
@@ -130,8 +134,7 @@ NeoBundle 'undotree.vim'
 NeoBundle 'easybuffer.vim'
 NeoBundle 'scrooloose/syntastic', {
 	\ 'build':{
-	\  'mac': 'pip install frosted pep8',
-	\  'unix': 'pip install frosted pep8'
+	\  'mac': 'pip install frosted pep8'
 	\}}
 NeoBundleLazy 'thinca/vim-quickrun', {
   \ 'autoload' : {
@@ -163,8 +166,7 @@ NeoBundleLazy 'kannokanno/previm', {
 	\  'filetypes': ['markdown']
 	\ },
 	\ 'build': {
-	\  'mac': "pip install docutils",
-	\  'unix': "pip install docutils"
+	\  'mac': "pip install docutils"
 	\ }}
 NeoBundleLazy 'Rip-Rip/clang_complete', {
 	\ 'autoload': {
@@ -236,6 +238,9 @@ NeoBundle 'moll/vim-node'
 NeoBundle 'pangloss/vim-javascript'
 call neobundle#end()
 filetype plugin indent on
+
+"setups for colorscheme
+colorscheme jellybeans
 
 "setups for each plugin follows
 inoremap <C-j> <DOWN>
@@ -345,6 +350,14 @@ let g:undotree_HighlightChangedText = 1
 let g:undotree_HighlightSyntax = "UnderLined"
 
 "setup for tagbar ============================================================
+let g:tagbar_type_r = {
+	\ 'ctagstype' : 'r',
+	\ 'kinds'     : [
+		\ 'f:Functions',
+		\ 'g:GlobalVariables',
+		\ 'v:FunctionVariables',
+	\ ]
+\ }
 nmap <F8> :TagbarToggle<CR>
 nnoremap <C-]> g<C-]>
 
