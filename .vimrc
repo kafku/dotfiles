@@ -185,7 +185,7 @@ NeoBundleLazy 'lambdalisue/vim-django-support', {
 	\ 'autoload': {
 	\  'filetypes': ['python', 'python3', 'djangohtml']
 	\}}
-NeoBundleLazy 'alfredodexa/pytest.vim', {
+NeoBundleLazy 'alfredodeza/pytest.vim', {
 	\ 'autoload': {
 	\  'filetypes': ['python', 'python3', 'djangohtml']
 	\}}
@@ -545,6 +545,7 @@ function! s:hooks.on_source(bundle)
 	let g:clang_complete_auto = 0
 	let g:clang_auto_select = 0
 	let g:clang_default_keymappings = 0
+	"let g:clang_usr_options = '-std=c++0x'
 	"let g:clang_use_library = 1
 endfunction
 
