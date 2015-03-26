@@ -206,6 +206,11 @@ NeoBundleLazy "jmcantrell/vim-virtualenv", {
 	\ "autoload": {
 	\   "filetypes": ["python", "python3", "djangohtml"],
 	\ }}
+NeoBundleLazy "lambdalisue/vim-pyenv", {
+	\ "depends": ['davidhalter/jedi-vim'],
+	\ "autoload": {
+	\   "filetypes": ["python", "python3", "djangohtml"]
+	\ }}
 NeoBundle 'elzr/vim-json'
 NeoBundle 'rbtnn/rabbit-ui.vim'
 NeoBundle 'rbtnn/rabbit-ui-collection.vim'
@@ -608,7 +613,7 @@ nmap <Leader>a <Plug>(EasyAlign)
 let s:hooks = neobundle#get_hooks('flake8-vim')
 function! s:hooks.on_source(bundle)
 	let g:PyFlakeOnWrite = 0
-	let g:PyFlakeCheckers = 'pep8,mecab,frosted'
+	let g:PyFlakeCheckers = 'pep8,meccabe,frosted'
 	let g:PyFlakeDefaultComplexity = 10
 	let g:PyFlakeCWindow = 6
 	let g:PyFlakeSigns = 1
