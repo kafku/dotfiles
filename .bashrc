@@ -54,6 +54,15 @@ if [ -s $HOME/.pythonz/etc/bashrc ]; then
 	source $HOME/.pythonz/etc/bashrc
 fi
 
+# pyenv
+if [ ! -e $HOME/.pyenv ]; then
+	git clone https://github.com/yyuu/pyenv.git ~/.pyenv
+else
+	export PYENV_ROOT=$HOME/.pyenv
+	export PATH=$PYENV_ROOT/bin:$PATH
+	eval "$(pyenv init -)"
+fi
+
 # direnv
 type direnv > /dev/null 2>&1 && eval "$(direnv hook bash)"
 
