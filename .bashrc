@@ -11,7 +11,7 @@ if [ `which colordiff 2> /dev/null` ]; then
 fi
 export LESS='-R -N --tabs=4'
 #export LESSOPEN='| /usr/bin/src-hilite-lesspipe.sh %s'
-
+export HISTIGNORE=rm:cd:exit
 
 if [ -z "$TMUX" ]; then
 	export OMP_NUM_THREADS=10
