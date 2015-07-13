@@ -1,0 +1,11 @@
+[core]
+	editor = vim
+[user]
+	name = kafku
+	email = kazunoko93@gmail.com
+[merge]
+	ff = false
+[color]
+	ui = true
+[pull]
+	rebase = true
