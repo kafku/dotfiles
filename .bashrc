@@ -23,7 +23,7 @@ if [ -z "$TMUX" ]; then
 	fi
 
 	export LD_LIBRARY_PATH=/usr/local/cuda-6.5/nvvm/lib64:/usr/local/cuda-6.5/lib64:$HOME/usr/lib:/usr/local/lib:/usr/lib64:$LD_LIBRARY_PATH
-	export PKG_CONFIG_PATH=/usr/lib64/pkgconfig:/usr/local/lib64/pkgconfig:$HOME/usr/lib/pkgconfig:$PKG_CONFIG_PATH
+	export PKG_CONFIG_PATH=/usr/lib64/pkgconfig:/usr/local/lib64/pkgconfig:/usr/loca/lib/pkgconfig:$HOME/usr/lib/pkgconfig:$PKG_CONFIG_PATH
 
 	if [ `which R 2> /dev/null` ]; then
 		export R_INCLUDE_DIR=`R RHOME`/include
