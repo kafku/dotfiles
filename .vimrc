@@ -250,6 +250,7 @@ NeoBundle 'othree/html5.vim'
 NeoBundle 'moll/vim-node'
 NeoBundle 'pangloss/vim-javascript'
 NeoBundle 'tmux-plugins/vim-tmux'
+NeoBundle 'tpope/vim-obsession'
 call neobundle#end()
 filetype plugin indent on
 
