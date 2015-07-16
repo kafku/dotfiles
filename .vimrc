@@ -77,8 +77,8 @@ NeoBundleLazy 'junegunn/vim-easy-align', {
   \   'commands' : ['EasyAlign'],
   \   'mappings' : ['<Plug>(EasyAlign)'],
   \ }}
-NeoBundleLazy 'tpope/vim-endwise', {
-  \ 'autoload' : { 'insert' : 1,}} 
+"NeoBundleLazy 'tpope/vim-endwise', {
+"  \ 'autoload' : { 'insert' : 1,}} 
 NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'tpope/vim-surround'
 NeoBundleLazy 'The-NERD-tree', {
@@ -139,7 +139,6 @@ NeoBundle 'scrooloose/syntastic', {
 	\}}
 NeoBundleLazy 'thinca/vim-quickrun', {
   \ 'autoload' : {
-  \   'mappings' : [['n', '\r']],
   \   'commands' : ['QuickRun']
   \ }}
 NeoBundle 'majutsushi/tagbar'
@@ -250,6 +249,7 @@ NeoBundle 'hail2u/vim-css3-syntax'
 NeoBundle 'othree/html5.vim'
 NeoBundle 'moll/vim-node'
 NeoBundle 'pangloss/vim-javascript'
+NeoBundle 'tmux-plugins/vim-tmux'
 call neobundle#end()
 filetype plugin indent on
 
@@ -613,7 +613,7 @@ nmap <Leader>a <Plug>(EasyAlign)
 let s:hooks = neobundle#get_hooks('flake8-vim')
 function! s:hooks.on_source(bundle)
 	let g:PyFlakeOnWrite = 0
-	let g:PyFlakeCheckers = 'pep8,meccabe,frosted'
+	let g:PyFlakeCheckers = 'pep8,mccabe,frosted'
 	let g:PyFlakeDefaultComplexity = 10
 	let g:PyFlakeCWindow = 6
 	let g:PyFlakeSigns = 1
@@ -647,3 +647,16 @@ function! s:hooks.on_source(bundle)
 	nmap <C-m> <Plug>RDSendLine
 	vmap <C-m> <Plug>RDSendSelection
 endfunction
+
+"setup for vim-django-support ================================================
+let s:hooks = neobundle#get_hooks('vim-quickrun')
+function! s:hooks.on_source(bundle)
+	let g:quickrun_no_default_key_mappings = 1
+endfunction
+
+"setup for vim-django-support ================================================
+"invoke :DjangoSupportActive to activate plugin
+let g:django_support#auto_activate = 0
+let g:django_support#auto_activate_on_filetype = 0
+
+
