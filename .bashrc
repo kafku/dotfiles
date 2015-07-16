@@ -67,3 +67,7 @@ fi
 # direnv
 type direnv > /dev/null 2>&1 && eval "$(direnv hook bash)"
 
+# tmux plugin manager
+if [ ! -e ~/.tmux/plugins/tpm ]; then
+	git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+fi
