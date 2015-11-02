@@ -26,8 +26,8 @@ if [ -z "$TMUX" ]; then
 	export PKG_CONFIG_PATH=/usr/lib64/pkgconfig:/usr/local/lib64/pkgconfig:/usr/loca/lib/pkgconfig:$HOME/usr/lib/pkgconfig:$PKG_CONFIG_PATH
 
 	if [ `which R 2> /dev/null` ]; then
-		export R_INCLUDE_DIR=`R RHOME`/include
-		export R_PKG_PATH=`Rscript -e '.libPaths()[1]' | egrep -o '".+"' | sed -e 's/"//g'`
+		export VIM_R_INCLUDE_DIR=`R RHOME`/include
+		export VIM_R_PKG_PATH=`Rscript -e '.libPaths()[1]' | egrep -o '".+"' | sed -e 's/"//g'`
 	fi
 
 	if [ -e /opt/intel/composer_xe_2015/bin/compilervars.sh ]; then

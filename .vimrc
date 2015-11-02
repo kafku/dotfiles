@@ -417,9 +417,9 @@ let g:syntastic_cpp_include_dirs = [
 	\ '/usr/include',
 	\ '/usr/local/include', 
 	\ $HOME.'/include', 
-	\ $R_INCLUDE_DIR,
-	\ $R_PKG_PATH.'/Rcpp/include',
-	\ $R_PKG_PATH.'/RcppArmadillo/include']
+	\ $VIM_R_INCLUDE_DIR,
+	\ $VIM_R_PKG_PATH.'/Rcpp/include',
+	\ $VIM_R_PKG_PATH.'/RcppArmadillo/include']
 "let g:syntastic_cpp_complier_option = '-std=c++11'
 let g:syntastic_aggregate_errors = 1
 let g:syntastic_python_checkers = ['frosted', 'pep8'] 
