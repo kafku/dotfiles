@@ -6,11 +6,14 @@
 # and start a new session
 #
 
-if(!require(colorout)){
+if(!require(colorout, quietly = T)){
 	devtools::install_github("jalvesaq/colorout")
-	require(colorout)
+	require(colorout, quietly = T)
 }
 
 options(vimcom.verose = 1)
-require(vimcom)
+if(!require(vimcom, quietly = T)){
+    devtools::install_github("jalvesaq/VimCom")
+    require(vimcom, quietly = T)
+}
 
