@@ -23,7 +23,7 @@ if [ -z "$TMUX" ]; then
 	fi
 
 	export LD_LIBRARY_PATH=/usr/local/cuda-6.5/nvvm/lib64:/usr/local/cuda-6.5/lib64:$HOME/usr/lib:/usr/local/lib:/usr/lib64:$LD_LIBRARY_PATH
-	export PKG_CONFIG_PATH=/usr/lib64/pkgconfig:/usr/local/lib64/pkgconfig:/usr/loca/lib/pkgconfig:$HOME/usr/lib/pkgconfig:$PKG_CONFIG_PATH
+	export PKG_CONFIG_PATH=/usr/lib64/pkgconfig:/usr/local/lib64/pkgconfig:/usr/local/lib/pkgconfig:$HOME/usr/lib/pkgconfig:$PKG_CONFIG_PATH
 
 	if [ `which R 2> /dev/null` ]; then
 		export VIM_R_INCLUDE_DIR=`R RHOME`/include
@@ -70,4 +70,8 @@ type direnv > /dev/null 2>&1 && eval "$(direnv hook bash)"
 # tmux plugin manager
 if [ ! -e ~/.tmux/plugins/tpm ]; then
 	git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+fi
+
+if [ -e /opt/rh/devtoolset-2/enable ]; then
+	source /opt/rh/devtoolset-2/enable
 fi
