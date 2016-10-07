@@ -56,7 +56,7 @@ filetype off
 if has('vim_starting')
 	if !isdirectory(expand('~/.vim/bundle/neobundle.vim/'))
 		echo 'installing neobundle'
-		:call system("git clone git://github.com/Shougo/neobundle.vim ~/.vim/bundle/neobundle.vim")
+		:call system("git clone https://github.com/Shougo/neobundle.vim.git ~/.vim/bundle/neobundle.vim")
 	endif
 
 	set rtp+=~/.vim/bundle/neobundle.vim/
@@ -120,7 +120,7 @@ NeoBundleLazy 'Shougo/neosnippet', {
   \ }}
 NeoBundle 'Shougo/neosnippet-snippets'
 NeoBundleLazy 'Shougo/vimshell', {
-  \ 'depends' : 'Shougo/vimproc',
+  \ 'depends' : 'Shougo/vimproc.vim',
   \ 'autoload' : {
   \   'commands' : [{ 'name' : 'VimShell', 'complete' : 'customlist,vimshell#complete'},
   \                 'VimShellExecute', 'VimShellInteractive',
@@ -210,19 +210,22 @@ NeoBundleLazy "lambdalisue/vim-pyenv", {
 	\ "autoload": {
 	\   "filetypes": ["python", "python3", "djangohtml"]
 	\ }}
+NeoBundleLazy "ivanov/vim-ipython", {
+	\ "autoload": {
+	\   "filetypes": ["python", "python3", "djangohtml"]
+	\ }}
 NeoBundle 'elzr/vim-json'
 NeoBundle 'rbtnn/rabbit-ui.vim'
 NeoBundle 'rbtnn/rabbit-ui-collection.vim'
 NeoBundleLazy 'ekalinin/Dockerfile.vim', {
 	\ 'autoload': {
-	\  'filetypes' : ['Dockerfile']
 	\}}
 NeoBundle 'airblade/vim-rooter'
 NeoBundleLazy 'wesleyche/SrcExpl',{
 	\ 'autoload':{
 	\  'commands':['SrcExplToggle']
 	\}}
-NeoBundleLazy 'vim-scripts/Vim-R-plugin',{
+NeoBundleLazy 'jalvesaq/Nvim-R',{
 	\ 'autoload': {
 	\  'filetypes': ['r', 'rnoweb', 'rdoc', 'rhelp', 'rrst', 'rmd' ]
 	\ }}
@@ -251,6 +254,10 @@ NeoBundle 'moll/vim-node'
 NeoBundle 'pangloss/vim-javascript'
 NeoBundle 'tmux-plugins/vim-tmux'
 NeoBundle 'tpope/vim-obsession'
+NeoBundleLazy 'chiphogg/vim-prototxt', {
+	\ 'autoload' : {
+	\  'fietypes' : ['prototxt']
+	\ }}
 call neobundle#end()
 filetype plugin indent on
 
@@ -628,22 +635,22 @@ function! s:hooks.on_source(bundle)
 	""call lexima#add_rule({'at': '\%#\n\s*}', 'char': '}', 'input': '}', 'delete': '}'})
 endfunction
 
-"setup for vim-R-plugin =======================================================
-"note that vim-r-plugin requires vimcom package and X server
+"setup for Nvim-R  =======================================================
 autocmd FileType r,rnoweb,rdoc,rhelp,rrst,rmd  setlocal ts=4 sw=4 sts=4 et
-let s:hooks = neobundle#get_hooks('Vim-R-plugin')
+let s:hooks = neobundle#get_hooks('Nvim-R')
 function! s:hooks.on_source(bundle)
-	let g:vimrplugin_vimcom_wait = 5000
-	let g:vimrplugin_applescript = 0
-	let g:ScreenImpl = 'Tmux'
-	let g:vimrplugin_vsplit = 0
-	let g:ScreenShellInitialFocus = 'shell'
-	let g:vimrplugin_notmuxconf = 1
-	let g:vimrplugin_tmux_title = "Vim-R"
-	let g:vimrplugin_screenplugin = 1
-	let g:vimrplugin_conqueplugin = 0
-	let g:vimrplugin_map_r = 0
-	let g:vimrplugin_vimpager = "no"
+	let g:R_wait = 5000
+	let g:R_in_buffer = 0
+	let g:R_applescript = 0
+	let g:R_tmux_split = 1
+	let g:R_vsplit = 0
+	"let g:ScreenShellInitialFocus = 'shell'
+	let g:R_notmuxconf = 1
+	"let g:vimrplugin_tmux_title = "Vim-R"
+	"let g:vimrplugin_screenplugin = 1
+	"let g:vimrplugin_conqueplugin = 0
+	"let g:vimrplugin_map_r = 0
+	let g:R_nvimpager = "no"
 	nmap <F2> <Plug>RStart
 	nmap <C-m> <Plug>RDSendLine
 	vmap <C-m> <Plug>RDSendSelection
