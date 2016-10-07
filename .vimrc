@@ -423,11 +423,12 @@ let g:syntastic_cpp_auto_refresh = 1
 let g:syntastic_cpp_include_dirs = [
 	\ '/usr/include',
 	\ '/usr/local/include', 
+	\ '/usr/include/c++/'.system('g++ -dumpversion'),
 	\ $HOME.'/include', 
 	\ $VIM_R_INCLUDE_DIR,
 	\ $VIM_R_PKG_PATH.'/Rcpp/include',
 	\ $VIM_R_PKG_PATH.'/RcppArmadillo/include']
-"let g:syntastic_cpp_complier_option = '-std=c++11'
+let g:syntastic_cpp_compiler_options = '-std=c++11'
 let g:syntastic_aggregate_errors = 1
 let g:syntastic_python_checkers = ['frosted', 'pep8'] 
 
@@ -481,7 +482,7 @@ function! s:hooks.on_source(bundle)
 	autocmd FileType javascritp setlocal omnifunc=javascriptcomplete#CompleteJS
 	autocmd FileType xml setlocal omnifunc=xmlcomplete#completeTags
 	autocmd FileType python setlocal omnifunc=jedi#completions
-	autocmd FileType r,rnoweb,rdoc,rhelp,rrst,rmd setlocal omnifunc=rcomplete#CompleteR
+	"autocmd FileType r,rnoweb,rdoc,rhelp,rrst,rmd setlocal omnifunc=rcomplete#CompleteR
 
 	"if !exists('g:neocomplete#sources#omni#functions')
 	"	let g:neocomplete#sources#omni#functions = {}
@@ -525,7 +526,7 @@ let g:quickrun_config.cpp = {
 			\ 'hook/quickrunex/enable' : 1
 			\}
 let g:quickrun_config['cpp11'] = {
-			\ 'command' : 'g++-4.8',
+			\ 'command' : 'g++',
 			\ 'cmdopt' : '-std=c++11 -Wall -Wextra',
 			\ 'hook/quickrunex/enable' : 1
 			\} 
@@ -558,7 +559,7 @@ function! s:hooks.on_source(bundle)
 	let g:clang_complete_auto = 0
 	let g:clang_auto_select = 0
 	let g:clang_default_keymappings = 0
-	"let g:clang_usr_options = '-std=c++0x'
+	let g:clang_usr_options = '-std=c++11'
 	"let g:clang_use_library = 1
 endfunction
 
@@ -651,6 +652,7 @@ function! s:hooks.on_source(bundle)
 	"let g:vimrplugin_conqueplugin = 0
 	"let g:vimrplugin_map_r = 0
 	let g:R_nvimpager = "no"
+	"let g:R_term = "gnome-terminal"
 	nmap <F2> <Plug>RStart
 	nmap <C-m> <Plug>RDSendLine
 	vmap <C-m> <Plug>RDSendSelection
