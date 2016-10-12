@@ -41,6 +41,10 @@ set pastetoggle=<F11>
 set wildmode=list:longest
 set nowrap
 
+" better indentation
+vnoremap < <gv
+vnoremap > >gv
+
 if has('multi_byte_ime') || has('xim') 
 	highlight Cursor guifg=NONE guibg=White
 	highlight CursorIM guifg=NONE guibg=DarkRed
@@ -72,6 +76,7 @@ NeoBundle 'tomasr/molokai'
 NeoBundle 'vim-scripts/Wombat'
 
 NeoBundle 'ervandew/screen'
+"NeoBundle 'benmills/vimux'
 NeoBundleLazy 'junegunn/vim-easy-align', {
   \ 'autoload': {
   \   'commands' : ['EasyAlign'],
@@ -176,6 +181,10 @@ NeoBundleLazy 'heavenshell/vim-pydocstring', {
 	\ 'autoload': {
 	\  'filetypes': ['python', 'python3', 'djangohtml']
 	\}}
+NeoBundleLazy 'alfredodeza/pytest.vim', {
+	\ 'autoload': {
+	\  'filetypes': ['python', 'python3', 'djangohtml']
+	\}}
 NeoBundleLazy 'python_ifold', {
 	\ 'autoload': {
 	\  'filetypes': ['python', 'python3', 'djangohtml']
@@ -270,6 +279,24 @@ inoremap <C-k> <UP>
 "inoremap <C-l> <RIGHT>
 inoremap <C-h> <BackSpace>
 nnoremap ; :
+
+"setup for ervandew/screen ==================================================
+"function! s:ScreenShellListener()
+"  if g:ScreenShellActive
+"    nmap <C-CR> :ScreenSend<cr>
+"    nmap <C-CR> :ScreenQuit<cr>
+"  else
+"    nmap <C-CR> :ScreenShell<cr>
+"  endif
+"endfunction
+
+"nmap <C-CR> :ScreenShell<cr>
+"augroup ScreenShellEnter
+"  autocmd User * call <SID>ScreenShellListener()
+"augroup END
+"augroup ScreenShellExit
+"  autocmd User * call <SID>ScreenShellListener()
+"augroup END
 
 "setup for NERD-tree =========================================================
 nmap <F6> :NERDTreeToggle<CR> 
