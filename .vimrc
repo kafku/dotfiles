@@ -45,13 +45,25 @@ set nowrap
 vnoremap < <gv
 vnoremap > >gv
 
-if has('multi_byte_ime') || has('xim') 
+" remove trailing whitespace
+autocmd BufWritePre * :%s/\s\+$//ge
+
+" remove empty lines / python
+function TrimEndLines()
+	let save_cursor = getpos(".")
+	:silent! %s#\($\n\s*\)\+\%$##
+	call setpos('.', save_cursor)
+endfunction
+
+autocmd BufWritePre *.py call TrimEndLines()
+
+if has('multi_byte_ime') || has('xim')
 	highlight Cursor guifg=NONE guibg=White
 	highlight CursorIM guifg=NONE guibg=DarkRed
 endif
 
 set foldmethod=manual
-set list listchars=tab:\|\ 
+set list listchars=tab:\|\
 highlight Specialkey ctermfg=233
 
 map Y y$
@@ -83,7 +95,7 @@ NeoBundleLazy 'junegunn/vim-easy-align', {
   \   'mappings' : ['<Plug>(EasyAlign)'],
   \ }}
 "NeoBundleLazy 'tpope/vim-endwise', {
-"  \ 'autoload' : { 'insert' : 1,}} 
+"  \ 'autoload' : { 'insert' : 1,}}
 NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'tpope/vim-surround'
 NeoBundleLazy 'The-NERD-tree', {
@@ -131,7 +143,7 @@ NeoBundleLazy 'Shougo/vimshell', {
   \                 'VimShellExecute', 'VimShellInteractive',
   \                 'VimShellTerminal', 'VimShellPop'],
   \   'mappings' : ['<Plug>(vimshell_switch)']
-  \ 
+  \
   \ }}
 NeoBundle 'itchyny/lightline.vim'
 NeoBundle 'Yggdroot/indentLine'
@@ -273,6 +285,9 @@ filetype plugin indent on
 "setups for colorscheme
 colorscheme jellybeans
 
+set colorcolumn=80
+highlight ColorColumn ctermbg=234
+
 "setups for each plugin follows
 inoremap <C-j> <DOWN>
 inoremap <C-k> <UP>
@@ -299,7 +314,7 @@ nnoremap ; :
 "augroup END
 
 "setup for NERD-tree =========================================================
-nmap <F6> :NERDTreeToggle<CR> 
+nmap <F6> :NERDTreeToggle<CR>
 
 "setup for lightline ==========================================================
 let g:lightline = {
@@ -449,15 +464,15 @@ let g:syntastic_cpp_check_header = 1
 let g:syntastic_cpp_auto_refresh = 1
 let g:syntastic_cpp_include_dirs = [
 	\ '/usr/include',
-	\ '/usr/local/include', 
+	\ '/usr/local/include',
 	\ '/usr/include/c++/'.system('g++ -dumpversion'),
-	\ $HOME.'/include', 
+	\ $HOME.'/include',
 	\ $VIM_R_INCLUDE_DIR,
 	\ $VIM_R_PKG_PATH.'/Rcpp/include',
 	\ $VIM_R_PKG_PATH.'/RcppArmadillo/include']
 let g:syntastic_cpp_compiler_options = '-std=c++11'
 let g:syntastic_aggregate_errors = 1
-let g:syntastic_python_checkers = ['frosted', 'pep8'] 
+let g:syntastic_python_checkers = ['frosted', 'pep8']
 
 "set up for neocomplete =======================================================
 let s:hooks = neobundle#get_hooks('neocomplete.vim')
@@ -484,7 +499,7 @@ function! s:hooks.on_source(bundle)
 	function! s:my_cr_function()
 		return pumvisible() ? neocomplete#close_popup() : s:ExCr()
 	endfunction
-	
+
 	"inoremap <expr><TAB>  pumvisible() ? "\<C-n>" :
 	"        \ <SID>check_back_space() ? "\<TAB>" :
 	"        \ neocomplete#start_manual_complete()
@@ -556,7 +571,7 @@ let g:quickrun_config['cpp11'] = {
 			\ 'command' : 'g++',
 			\ 'cmdopt' : '-std=c++11 -Wall -Wextra',
 			\ 'hook/quickrunex/enable' : 1
-			\} 
+			\}
 
 "setup for unite-boost-online-doc =============================================
 augroup cpp-unite
@@ -565,7 +580,7 @@ augroup cpp-unite
 augroup END
 
 "setupforNERDTree =============================================================
-nmap <F7> :NERDTreeToggle<CR> 
+nmap <F7> :NERDTreeToggle<CR>
 
 
 "Makevars as makefile =========================================================
@@ -630,7 +645,7 @@ endfunction
 
 "setup for vim-rooter =========================================================
 let g:rooter_use_lcd = 1
-let g:rooter_patterns = ['tags', '.git', '.git/',  
+let g:rooter_patterns = ['tags', '.git', '.git/',
 			\'Makefile', 'OMakeroot',
 			\'CMakeLists.txt', '.svn', '.hg']
 
@@ -711,5 +726,4 @@ endfunction
 "invoke :DjangoSupportActive to activate plugin
 let g:django_support#auto_activate = 0
 let g:django_support#auto_activate_on_filetype = 0
-
 
