@@ -63,7 +63,7 @@ if has('multi_byte_ime') || has('xim')
 endif
 
 set foldmethod=manual
-set list listchars=tab:\|\
+set list listchars=tab:\|>
 highlight Specialkey ctermfg=233
 
 map Y y$
@@ -232,6 +232,10 @@ NeoBundleLazy "lambdalisue/vim-pyenv", {
 	\   "filetypes": ["python", "python3", "djangohtml"]
 	\ }}
 NeoBundleLazy "ivanov/vim-ipython", {
+	\ "autoload": {
+	\   "filetypes": ["python", "python3", "djangohtml"]
+	\ }}
+NeoBundleLazy "python-rope/ropevim", {
 	\ "autoload": {
 	\   "filetypes": ["python", "python3", "djangohtml"]
 	\ }}
