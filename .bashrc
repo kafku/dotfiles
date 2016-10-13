@@ -9,7 +9,7 @@ fi
 if [ `which colordiff 2> /dev/null` ]; then
 	alias diff='colordiff'
 fi
-export LESS='-R -N --tabs=4'
+export LESS='-R -S -N --tabs=4'
 #export LESSOPEN='| /usr/bin/src-hilite-lesspipe.sh %s'
 export HISTIGNORE=rm:cd:exit
 
@@ -22,7 +22,9 @@ if [ -z "$TMUX" ]; then
 		export PATH=$HOME/.rbenv/bin:$HOME/usr/bin:$PATH
 	fi
 
-	export LD_LIBRARY_PATH=/usr/local/cuda-6.5/nvvm/lib64:/usr/local/cuda-6.5/lib64:$HOME/usr/lib:/usr/local/lib:/usr/lib64:$LD_LIBRARY_PATH
+	export PATH=/usr/local/cuda/bin:$PATH
+	export PATH=$HOME/usr/bin:$PATH
+	export LD_LIBRARY_PATH=/usr/local/cuda/lib64:$HOME/usr/lib:/usr/local/lib:/usr/lib64:$LD_LIBRARY_PATH
 	export PKG_CONFIG_PATH=/usr/lib64/pkgconfig:/usr/local/lib64/pkgconfig:/usr/local/lib/pkgconfig:$HOME/usr/lib/pkgconfig:$PKG_CONFIG_PATH
 
 	if [ `which R 2> /dev/null` ]; then
@@ -34,12 +36,17 @@ if [ -z "$TMUX" ]; then
 		source /opt/intel/composer_xe_2015/bin/compilervars.sh intel64
 	fi
 
+	# linuxbrew
+	#export PATH="$HOME/.linuxbrew/bin:$PATH"
+	#export MANPATH="$HOME/.linuxbrew/share/man:$MANPATH"
+	#export INFOPATH="$HOME/.linuxbrew/share/info:$INFOPATH"
+	#export LD_LIBRARY_PATH="$HOME/.linuxbrew/lib:$LD_LIBRARY_PATH"
 fi
 
 # rbev
-if [ -e $HOME/.rbenv/bin ]; then
-	eval "$(rbenv init -)"
-fi
+#if [ -e $HOME/.rbenv/bin ]; then
+#	eval "$(rbenv init -)"
+#fi
 
 # python startup
 if [ -e $HOME/.pythonrc ]; then
@@ -62,6 +69,7 @@ else
 	export PYENV_ROOT=$HOME/.pyenv
 	export PATH=$PYENV_ROOT/bin:$PATH
 	eval "$(pyenv init -)"
+	export LD_LIBRARY_PATH=$(pyenv prefix | sed 's/:/\/lib:/;s/$/\/lib/'):$LD_LIBRARY_PATH
 fi
 
 # direnv
