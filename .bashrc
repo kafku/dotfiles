@@ -69,7 +69,7 @@ else
 	export PYENV_ROOT=$HOME/.pyenv
 	export PATH=$PYENV_ROOT/bin:$PATH
 	eval "$(pyenv init -)"
-	export LD_LIBRARY_PATH=$(pyenv prefix | sed 's/:/\/lib:/;s/$/\/lib/'):$LD_LIBRARY_PATH
+	alias vim='LD_LIBRARY_PATH=$(pyenv prefix | sed "s/:/\/lib:/;s/$/\/lib/"):$LD_LIBRARY_PATH vim'
 fi
 
 # direnv
