@@ -88,7 +88,9 @@ NeoBundle 'tomasr/molokai'
 NeoBundle 'vim-scripts/Wombat'
 
 NeoBundle 'ervandew/screen'
-"NeoBundle 'benmills/vimux'
+NeoBundle 'benmills/vimux'
+"NeoBundle 'jgors/vimux-ipy'
+NeoBundle 'julienr/vim-cellmode'
 NeoBundleLazy 'junegunn/vim-easy-align', {
   \ 'autoload': {
   \   'commands' : ['EasyAlign'],
@@ -176,7 +178,10 @@ NeoBundle 'terryma/vim-multiple-cursors'
 NeoBundle 'AndrewRadev/linediff.vim'
 NeoBundle 'AndrewRadev/switch.vim'
 NeoBundle 'godlygeek/tabular'
-NeoBundleLazy 'plasticboy/vim-markdown'
+NeoBundleLazy 'plasticboy/vim-markdown',{
+	\ 'autoload': {
+	\  'filetypes': ['markdown']
+	\ }}
 NeoBundleLazy 'kannokanno/previm', {
 	\ 'autoload': {
 	\  'commands': ['PrevimOpen'],
@@ -316,6 +321,8 @@ nnoremap ; :
 "augroup ScreenShellExit
 "  autocmd User * call <SID>ScreenShellListener()
 "augroup END
+
+"setup for benmills/vimux ==================================================
 
 "setup for NERD-tree =========================================================
 nmap <F6> :NERDTreeToggle<CR>
