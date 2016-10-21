@@ -483,6 +483,7 @@ let g:syntastic_cpp_include_dirs = [
 	\ $VIM_R_PKG_PATH.'/RcppArmadillo/include']
 let g:syntastic_cpp_compiler_options = '-std=c++11'
 let g:syntastic_aggregate_errors = 1
+let g:syntastic_python_python_exec = $HOME.'/.pyenv/shims/python'
 let g:syntastic_python_checkers = ['frosted', 'pep8']
 
 "set up for neocomplete =======================================================
