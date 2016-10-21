@@ -69,7 +69,9 @@ else
 	export PYENV_ROOT=$HOME/.pyenv
 	export PATH=$PYENV_ROOT/bin:$PATH
 	eval "$(pyenv init -)"
-	alias vim='LD_LIBRARY_PATH=$(pyenv prefix | sed "s/:/\/lib:/;s/$/\/lib/"):$LD_LIBRARY_PATH vim'
+	#NOTE: linux version of vim can't concurrently load both python2 and python3
+	alias vim='LD_LIBRARY_PATH=$(pyenv prefix `pyenv versions | grep anaconda2 | sed "s/^.\{2\}//g" |
+			cut -d" " -f1` | sed "s/:/\/lib:/;s/$/\/lib/"):$LD_LIBRARY_PATH vim'
 fi
 
 # direnv
