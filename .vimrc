@@ -104,7 +104,7 @@ NeoBundleLazy 'The-NERD-tree', {
 	\ 'autoload': {'commands': 'NERDTreeToggle'}
 	\ }
 NeoBundle 'The-NERD-Commenter'
-NeoBundle 'Lokaltog/vim-easymotion'
+NeoBundle 'easymotion/vim-easymotion'
 NeoBundle 'Lokaltog/powerline-fonts'
 NeoBundle 'L9'
 NeoBundleLazy 'cohama/lexima.vim', {
@@ -304,6 +304,10 @@ inoremap <C-k> <UP>
 inoremap <C-h> <BackSpace>
 nnoremap ; :
 
+" tab setting
+autocmd FileType c,cpp  setlocal ts=2 sw=2 sts=2 et
+autocmd FileType r,rnoweb,rdoc,rhelp,rrst,rmd  setlocal ts=2 sw=2 sts=2 et
+
 "setup for ervandew/screen ==================================================
 "function! s:ScreenShellListener()
 "  if g:ScreenShellActive
@@ -396,7 +400,7 @@ if !has('gui_running')
 endif
 
 "setup for indentLine ========================================================
-let g:indentLine_color_term=233
+let g:indentLine_color_term=237
 let g:indentLine_char='|'
 
 "setup for easymotion ========================================================
@@ -707,7 +711,6 @@ function! s:hooks.on_source(bundle)
 endfunction
 
 "setup for Nvim-R  =======================================================
-autocmd FileType r,rnoweb,rdoc,rhelp,rrst,rmd  setlocal ts=4 sw=4 sts=4 et
 let s:hooks = neobundle#get_hooks('Nvim-R')
 function! s:hooks.on_source(bundle)
 	let g:R_wait = 5000
