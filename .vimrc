@@ -1,6 +1,5 @@
 set tabstop=4
 set shiftwidth=4
-set nocompatible
 syntax on
 set wildmenu
 set showcmd
@@ -46,7 +45,7 @@ vnoremap < <gv
 vnoremap > >gv
 
 " remove trailing whitespace
-autocmd BufWritePre * :%s/\s\+$//ge
+autocmd BufWritePre *.py :%s/\s\+$//ge
 
 " remove empty lines / python
 function TrimEndLines()
@@ -63,16 +62,15 @@ if has('multi_byte_ime') || has('xim')
 endif
 
 set foldmethod=manual
-set list listchars=tab:\|>
+set list listchars=tab:\|\ |
 highlight Specialkey ctermfg=233
 
 map Y y$
 
-filetype off
 if has('vim_starting')
 	if !isdirectory(expand('~/.vim/bundle/neobundle.vim/'))
 		echo 'installing neobundle'
-		:call system("git clone https://github.com/Shougo/neobundle.vim.git ~/.vim/bundle/neobundle.vim")
+		:call system('git clone https://github.com/Shougo/neobundle.vim.git ~/.vim/bundle/neobundle.vim')
 	endif
 
 	set rtp+=~/.vim/bundle/neobundle.vim/
@@ -99,6 +97,13 @@ NeoBundleLazy 'junegunn/vim-easy-align', {
 "NeoBundleLazy 'tpope/vim-endwise', {
 "  \ 'autoload' : { 'insert' : 1,}}
 NeoBundle 'tpope/vim-fugitive'
+NeoBundleLazy 'cohama/agit.vim', {
+	\ 'autoload': {'commands': 'Agit'}
+	\ }
+NeoBundleLazy 'idanarye/vim-merginal', {
+	\ 'depends' : 'tpope/vim-fugitive',
+	\ 'autoload': {'commands': 'Merginal'}
+	\ }
 NeoBundle 'tpope/vim-surround'
 NeoBundleLazy 'The-NERD-tree', {
 	\ 'autoload': {'commands': 'NERDTreeToggle'}
@@ -194,6 +199,10 @@ NeoBundleLazy 'Rip-Rip/clang_complete', {
 	\ 'autoload': {
 	\  'filetypes': ['cpp', 'c', 'h', 'hpp'],
 	\ }}
+NeoBundleLazy 'alepez/vim-gtest', {
+	\ 'autoload': {
+	\  'filetypes': ['cpp', 'h', 'hpp'],
+	\ }}
 NeoBundleLazy 'heavenshell/vim-pydocstring', {
 	\ 'autoload': {
 	\  'filetypes': ['python', 'python3', 'djangohtml']
@@ -236,7 +245,7 @@ NeoBundleLazy "lambdalisue/vim-pyenv", {
 	\ "autoload": {
 	\   "filetypes": ["python", "python3", "djangohtml"]
 	\ }}
-NeoBundleLazy "ivanov/vim-ipython", {
+NeoBundleLazy "wilywampa/vim-ipython", {
 	\ "autoload": {
 	\   "filetypes": ["python", "python3", "djangohtml"]
 	\ }}
@@ -244,9 +253,12 @@ NeoBundleLazy "python-rope/ropevim", {
 	\ "autoload": {
 	\   "filetypes": ["python", "python3", "djangohtml"]
 	\ }}
-NeoBundle 'elzr/vim-json'
-NeoBundle 'rbtnn/rabbit-ui.vim'
-NeoBundle 'rbtnn/rabbit-ui-collection.vim'
+NeoBundleLazy 'elzr/vim-json', {
+	\ 'autoload':{
+	\  'filteypes': ['json']
+	\ }}
+"NeoBundle 'rbtnn/rabbit-ui.vim', 
+"NeoBundle 'rbtnn/rabbit-ui-collection.vim'
 NeoBundleLazy 'ekalinin/Dockerfile.vim', {
 	\ 'autoload': {
 	\}}
@@ -288,6 +300,7 @@ NeoBundleLazy 'chiphogg/vim-prototxt', {
 	\ 'autoload' : {
 	\  'fietypes' : ['prototxt']
 	\ }}
+NeoBundle 'vim-scripts/DoxygenToolkit.vim'
 call neobundle#end()
 filetype plugin indent on
 
@@ -426,7 +439,7 @@ let g:undotree_diffpanelHeight = 25
 let g:undotree_RelativeTimestamp = 1
 let g:undotree_TreeNodeShape = '*'
 let g:undotree_HighlightChangedText = 1
-let g:undotree_HighlightSyntax = "UnderLined"
+let g:undotree_HighlightSyntax = 'UnderLined'
 
 "setup for tagbar ============================================================
 let g:tagbar_type_r = {
@@ -470,30 +483,42 @@ nmap <leader>T <Plug>TaskList
 
 "set up for syntastic =========================================================
 set statusline+=%{SyntasticStatuslineFlag()}
+
+" C lang
 let g:syntastic_check_on_open = 0
 let g:syntastic_check_on_wq = 0
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_enable_signs = 1
 let g:syntastic_c_check_header = 1
+
+" C++
 let g:syntastic_cpp_check_header = 1
-let g:syntastic_cpp_auto_refresh = 1
+let g:syntastic_cpp_auto_refresh_includes = 0
+let g:syntastic_no_default_include_dirs = 1
 let g:syntastic_cpp_include_dirs = [
-	\ '/usr/include',
-	\ '/usr/local/include',
 	\ '/usr/include/c++/'.system('g++ -dumpversion'),
-	\ $HOME.'/include',
-	\ $VIM_R_INCLUDE_DIR,
-	\ $VIM_R_PKG_PATH.'/Rcpp/include',
-	\ $VIM_R_PKG_PATH.'/RcppArmadillo/include']
+	\ '/usr/include',
+	\ '/usr/local/include']
+"	\ $VIM_R_INCLUDE_DIR,
+"	\ $VIM_R_PKG_PATH.'/Rcpp/include',
+"	\ $VIM_R_PKG_PATH.'/RcppArmadillo/include']
 let g:syntastic_cpp_compiler_options = '-std=c++11'
+
+" python
 let g:syntastic_aggregate_errors = 1
 let g:syntastic_python_python_exec = $HOME.'/.pyenv/shims/python'
-let g:syntastic_python_checkers = ['frosted', 'pep8']
+let g:syntastic_python_checkers = ['pylint', 'frosted', 'pep8', 'pep257']
+
+" R lang : 'install.packages("lintr")'
+let g:syntastic_enable_r_lintr_checker = 1
+let g:syntastic_r_checkers = ['lintr']
+
+" VimL : 'pip install vim-vint #not vint'
+let g:syntastic_vim_checkers = ['vint']
 
 "set up for neocomplete =======================================================
 let s:hooks = neobundle#get_hooks('neocomplete.vim')
 function! s:hooks.on_source(bundle)
-	let g:acp_enebleAtStartup = 0
 	let g:neocomplete#enable_at_startup = 1
 	let g:neocomplete#enable_smart_case = 1
 	let g:neocomplete#sources#syntax#min_syntax_length = 3
@@ -627,8 +652,10 @@ function! s:hooks.on_source(bundle)
 	autocmd FileType python setlocal completeopt-=preview
 	let g:jedi#completions_enabled = 0
 	let g:jedi#auto_vim_configuration = 0
+	let g:jedi#smart_auto_mappings = 0
 	let g:jedi#popup_select_first = 0
-	let g:jedi#rename_command = "<Leader>R"
+	let g:jedi#show_call_signatures = 1
+	let g:jedi#rename_command = '<Leader>R'
 	let g:jedi#goto_assignments_command = '<Leader>G'
 endfunction
 
@@ -672,19 +699,19 @@ function! s:hooks.on_source(bundle)
 	let g:SrcExpl_refreshTime = 100
 	let g:SrcExpl_isUpdateTags = 0
 	let g:SrcExpl_winHeight = 11
-	let g:SrcExpl_jumpKey="<CR>"
-	let g:SrcExpl_gobackKey="<SPACE>"
-	let g:SrcExpl_updateTagsCmd = "ctags --sort=foldcase -R ./"
+	let g:SrcExpl_jumpKey = '<CR>'
+	let g:SrcExpl_gobackKey = '<SPACE>'
+	let g:SrcExpl_updateTagsCmd = 'ctags --sort=foldcase -R ./'
 	let g:SrcExpl_pluginList = [
-		\ "__Tagbar__",
-		\ "NERD_TREE_1",
-		\ "undotree_2",
-		\ "diffpanel_3"
+		\ '__Tagbar__',
+		\ 'NERD_TREE_1',
+		\ 'undotree_2',
+		\ 'diffpanel_3'
 	\ ]
 endfunction
 
 "setupfor emmet-vim ===========================================================
-let g:user_emmet_leader_key = "<C-m>"
+let g:user_emmet_leader_key = '<C-m>'
 let g:user_emmet_install_global = 0
 autocmd FileType html,css EmmetInstall
 
@@ -724,7 +751,7 @@ function! s:hooks.on_source(bundle)
 	"let g:vimrplugin_screenplugin = 1
 	"let g:vimrplugin_conqueplugin = 0
 	"let g:vimrplugin_map_r = 0
-	let g:R_nvimpager = "no"
+	let g:R_nvimpager = 'no'
 	"let g:R_term = "gnome-terminal"
 	nmap <F2> <Plug>RStart
 	nmap <C-m> <Plug>RDSendLine
