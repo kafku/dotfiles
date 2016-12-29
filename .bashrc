@@ -14,7 +14,7 @@ export LESS='-R -S -N --tabs=4'
 export HISTIGNORE=rm:cd:exit
 
 if [ -z "$TMUX" ]; then
-	export OMP_NUM_THREADS=10
+	export OMP_NUM_THREADS=25
 #	export OMP_DYNAMIC=0
 #	export OMP_NESTED=0
 
@@ -64,14 +64,11 @@ fi
 # pyenv
 if [ ! -e $HOME/.pyenv ]; then
 	git clone https://github.com/yyuu/pyenv.git ~/.pyenv
-	git clone https://github.com/yyuu/pyenv-which-ext.git ~/.pyenv/plugins/pyenv-which-ext
+	#git clone https://github.com/yyuu/pyenv-which-ext.git ~/.pyenv/plugins/pyenv-which-ext
 else
 	export PYENV_ROOT=$HOME/.pyenv
 	export PATH=$PYENV_ROOT/bin:$PATH
 	eval "$(pyenv init -)"
-	#NOTE: linux version of vim can't concurrently load both python2 and python3
-	alias vim='LD_LIBRARY_PATH=$(pyenv prefix `pyenv versions | grep anaconda2 | sed "s/^.\{2\}//g" |
-			cut -d" " -f1` | sed "s/:/\/lib:/;s/$/\/lib/"):$LD_LIBRARY_PATH vim'
 fi
 
 # direnv
@@ -82,6 +79,6 @@ if [ ! -e ~/.tmux/plugins/tpm ]; then
 	git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 fi
 
-if [ -e /opt/rh/devtoolset-2/enable ]; then
-	source /opt/rh/devtoolset-2/enable
-fi
+#if [ -e /opt/rh/devtoolset-4/enable ]; then
+#	source /opt/rh/devtoolset-4/enable
+#fi

@@ -1,0 +1,42 @@
+[global]
+floatx = float32
+warn_float64 = warn
+#warn_float64 = raise
+device = gpu3
+mode = FAST_RUN
+optimizer = fast_run
+on_opt_error = warn
+assert_no_cpu_op = warn
+print_active_device = True
+openmp = True
+cast_policy = custom
+int_division = floatX
+profile = False
+profile_memory = False
+profile_optimizer = False
+
+[profiling]
+destination = stderr
+n_apply = 20
+n_ops = 20
+min_memory_size = 1024
+min_peak_memory = True
+
+[scan]
+allow_gc = True
+
+[lib]
+#cnmem = 1
+
+[nvcc]
+fastmath = True
+optimizer_incuding = cudnn
+
+[cuda]
+root = /usr/local/cuda
+
+[blas]
+#ldflags = -L /opt/intel/mkl/lib/intel64 -Wl,--no-as-needed,-rpath=/opt/intel/mkl/lib/intel64 -lmkl_intel_lp64 -lmkl_intel_thread -lmkl_core -lpthread -lm
+#ldflags = -L /opt/intel/mkl/lib/intel64 -Wl,--no-as-needed,-rpath=/opt/intel/mkl/lib/intel64 -lmkl_intel_lp64 -lmkl_gnu_thread -lmkl_core -lgomp -lpthread -lm -ldl
+ldflags = -L/usr/lib64 -lopenblaso
+

@@ -1,5 +1,6 @@
 [core]
 	editor = vim
+	whitespace = trailing-space,space-before-tab
 [user]
 	name = kafku
 	email = kazunoko93@gmail.com
@@ -7,5 +8,10 @@
 	ff = false
 [color]
 	ui = true
+[push]
+	default = current
 [pull]
 	rebase = true
+[alias]
+	logall = log --graph --all
+	diff = diff --color-words='[^[:space:]]|([[:alnum:]]|UTF_8_GUARD)+'

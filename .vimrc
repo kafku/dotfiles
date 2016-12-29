@@ -78,229 +78,233 @@ endif
 
 call neobundle#begin(expand('~/.vim/bundle/'))
 let g:neobundle_default_git_protocol = 'https'
-NeoBundleFetch 'Shougo/neobundle.vim'
+if neobundle#load_cache()
+	NeoBundleFetch 'Shougo/neobundle.vim'
 
-NeoBundle 'w0ng/vim-hybrid'
-NeoBundle 'nanotech/jellybeans.vim'
-NeoBundle 'tomasr/molokai'
-NeoBundle 'vim-scripts/Wombat'
+	NeoBundle 'w0ng/vim-hybrid'
+	NeoBundle 'nanotech/jellybeans.vim'
+	NeoBundle 'tomasr/molokai'
+	NeoBundle 'vim-scripts/Wombat'
+	NeoBundle 'ntpeters/vim-better-whitespace'
+	NeoBundle 'ervandew/screen'
+	NeoBundle 'benmills/vimux'
+	"NeoBundle 'jgors/vimux-ipy'
+	NeoBundle 'julienr/vim-cellmode'
+	NeoBundleLazy 'junegunn/vim-easy-align', {
+	  \ 'autoload': {
+	  \   'commands' : ['EasyAlign'],
+	  \   'mappings' : ['<Plug>(EasyAlign)'],
+	  \ }}
+	"NeoBundleLazy 'tpope/vim-endwise', {
+	"  \ 'autoload' : { 'insert' : 1,}}
+	NeoBundle 'tpope/vim-fugitive'
+	NeoBundleLazy 'cohama/agit.vim', {
+		\ 'autoload': {'commands': 'Agit'}
+		\ }
+	NeoBundleLazy 'idanarye/vim-merginal', {
+		\ 'depends' : 'tpope/vim-fugitive',
+		\ 'autoload': {'commands': 'Merginal'}
+		\ }
+	NeoBundle 'tpope/vim-surround'
+	NeoBundleLazy 'The-NERD-tree', {
+		\ 'autoload': {'commands': 'NERDTreeToggle'}
+		\ }
+	NeoBundle 'The-NERD-Commenter'
+	NeoBundle 'easymotion/vim-easymotion'
+	NeoBundle 'Lokaltog/powerline-fonts'
+	NeoBundle 'L9'
+	NeoBundleLazy 'cohama/lexima.vim', {
+		\ 'autoload': {
+		\  'insert': 1
+		\}}
+	NeoBundle 'Shougo/vimproc.vim', {
+	\ 'build' : {
+	\     'windows' : 'tools\\update-dll-mingw',
+	\     'cygwin' : 'make -f make_cygwin.mak',
+	\     'mac' : 'make -f make_mac.mak',
+	\     'linux' : 'make',
+	\     'unix' : 'gmake',
+	\    },
+	\ }
+	NeoBundleLazy 'Shougo/unite.vim', {
+				\ 'autoload': {
+				\  'commands': ['Unite']
+				\ }}
+	NeoBundle 'Shougo/neomru.vim'
+	if has('lua')
+		NeoBundleLazy 'Shougo/neocomplete.vim', {
+		\ 'depends' : 'Shougo/vimproc.vim',
+		\ 'autoload': {'insert':1,},
+		\ }
+	endif
+	NeoBundleLazy 'Shougo/neosnippet', {
+	  \ 'depends' : 'Shougo/neosnippet-snippets',
+	  \ 'autoload' : {
+	  \   'insert' : 1,
+	  \   'filetypes' : 'snippet',
+	  \ }}
+	NeoBundle 'Shougo/neosnippet-snippets'
+	NeoBundleLazy 'Shougo/vimshell', {
+	  \ 'depends' : 'Shougo/vimproc.vim',
+	  \ 'autoload' : {
+	  \   'commands' : [{ 'name' : 'VimShell', 'complete' : 'customlist,vimshell#complete'},
+	  \                 'VimShellExecute', 'VimShellInteractive',
+	  \                 'VimShellTerminal', 'VimShellPop'],
+	  \   'mappings' : ['<Plug>(vimshell_switch)']
+	  \
+	  \ }}
+	NeoBundle 'itchyny/lightline.vim'
+	NeoBundle 'Yggdroot/indentLine'
+	NeoBundle 'YankRing.vim'
+	NeoBundle 'undotree.vim'
+	NeoBundle 'easybuffer.vim'
+	NeoBundle 'scrooloose/syntastic', {
+		\ 'build':{
+		\  'mac': 'pip install frosted pep8'
+		\}}
+	NeoBundleLazy 'thinca/vim-quickrun', {
+	  \ 'autoload' : {
+	  \   'commands' : ['QuickRun']
+	  \ }}
+	NeoBundle 'majutsushi/tagbar'
+	NeoBundle 'vim-scripts/TasKList.vim'
+	NeoBundle 'tagexplorer.vim'
+	NeoBundle 'szw/vim-tags'
+	NeoBundle 'thinca/vim-splash'
+	NeoBundleLazy 'vim-jp/cpp-vim', {
+		\ 'autoload':{
+		\  'filetypes': ['cpp', 'hpp', 'h']
+		\}}
+	NeoBundle 'mattn/quickrunex-vim'
+	NeoBundle 'tyru/open-browser.vim'
+	NeoBundle 'mattn/webapi-vim'
+	NeoBundle 'osyo-manga/unite-boost-online-doc'
+	NeoBundle 'cocopon/colorswatch.vim'
+	NeoBundle 'terryma/vim-multiple-cursors'
+	NeoBundle 'AndrewRadev/linediff.vim'
+	NeoBundle 'AndrewRadev/switch.vim'
+	NeoBundle 'godlygeek/tabular'
+	NeoBundleLazy 'plasticboy/vim-markdown',{
+		\ 'autoload': {
+		\  'filetypes': ['markdown']
+		\ }}
+	NeoBundleLazy 'kannokanno/previm', {
+		\ 'autoload': {
+		\  'commands': ['PrevimOpen'],
+		\  'filetypes': ['markdown']
+		\ },
+		\ 'build': {
+		\  'mac': "pip install docutils"
+		\ }}
+	NeoBundleLazy 'Rip-Rip/clang_complete', {
+		\ 'autoload': {
+		\  'filetypes': ['cpp', 'c', 'h', 'hpp'],
+		\ }}
+	NeoBundleLazy 'alepez/vim-gtest', {
+		\ 'autoload': {
+		\  'filetypes': ['cpp', 'h', 'hpp'],
+		\ }}
+	NeoBundleLazy 'heavenshell/vim-pydocstring', {
+		\ 'autoload': {
+		\  'filetypes': ['python', 'python3', 'djangohtml']
+		\}}
+	NeoBundleLazy 'alfredodeza/pytest.vim', {
+		\ 'autoload': {
+		\  'filetypes': ['python', 'python3', 'djangohtml']
+		\}}
+	NeoBundleLazy 'python_ifold', {
+		\ 'autoload': {
+		\  'filetypes': ['python', 'python3', 'djangohtml']
+		\}}
+	NeoBundleLazy 'lambdalisue/vim-django-support', {
+		\ 'autoload': {
+		\  'filetypes': ['python', 'python3', 'djangohtml']
+		\}}
+	NeoBundleLazy 'alfredodeza/pytest.vim', {
+		\ 'autoload': {
+		\  'filetypes': ['python', 'python3', 'djangohtml']
+		\}}
+	NeoBundleLazy 'andviro/flake8-vim', {
+		\ 'autoload': {
+		\  'command': ['PyFlake', 'PyFlakeAuto'],
+		\  'filetypes': ['python', 'python3', 'djangohtml'],
+		\ }}
+	NeoBundleLazy 'hynek/vim-python-pep8-indent', {
+		\ 'autoload': {
+		\  'filetypes': ['python', 'python3', 'djangohtml'],
+		\ }}
+	NeoBundleLazy "davidhalter/jedi-vim", {
+		\ "autoload": {
+		\   "filetypes": ["python", "python3", "djangohtml"],
+		\ }}
+	NeoBundleLazy "jmcantrell/vim-virtualenv", {
+		\ "autoload": {
+		\   "filetypes": ["python", "python3", "djangohtml"],
+		\ }}
+	NeoBundleLazy "lambdalisue/vim-pyenv", {
+		\ "depends": ['davidhalter/jedi-vim'],
+		\ "autoload": {
+		\   "filetypes": ["python", "python3", "djangohtml"]
+		\ }}
+	NeoBundleLazy "wilywampa/vim-ipython", {
+		\ "autoload": {
+		\   "filetypes": ["python", "python3", "djangohtml"]
+		\ }}
+	NeoBundleLazy "python-rope/ropevim", {
+		\ "autoload": {
+		\   "filetypes": ["python", "python3", "djangohtml"]
+		\ }}
+	NeoBundleLazy 'elzr/vim-json', {
+		\ 'autoload':{
+		\  'filteypes': ['json']
+		\ }}
+	"NeoBundle 'rbtnn/rabbit-ui.vim', 
+	"NeoBundle 'rbtnn/rabbit-ui-collection.vim'
+	NeoBundleLazy 'ekalinin/Dockerfile.vim', {
+		\ 'autoload': {
+		\}}
+	NeoBundle 'airblade/vim-rooter'
+	NeoBundleLazy 'wesleyche/SrcExpl',{
+		\ 'autoload':{
+		\  'commands':['SrcExplToggle']
+		\}}
+	NeoBundleLazy 'jalvesaq/Nvim-R',{
+		\ 'autoload': {
+		\  'filetypes': ['r', 'rnoweb', 'rdoc', 'rhelp', 'rrst', 'rmd' ]
+		\ }}
+	NeoBundleLazy 'mattn/emmet-vim', {
+		\ 'autoload' : {
+		\   'filetypes' : ['html', 'html5', 'eruby', 'jsp', 'xml', 'css', 'scss', 'coffee'],
+		\   'commands' : ['<Plug>ZenCodingExpandNormal']
+		\ }}
+	NeoBundle 'severin-lemaignan/vim-minimap'
+	NeoBundleLazy 'vim-ruby/vim-ruby', {
+		\ 'autoload' : {
+		\   'filetypes' : ['ruby', 'eruby']
+		\ }}
+	NeoBundleLazy 'thinca/vim-ref', {
+		\ 'autoload' : {
+		\   'commands' : ['Ref'],
+		\   'filetypes' : ['ruby']
+		\ }}
+	NeoBundleLazy 'tpope/vim-rails', {
+		\ 'autoload' : {
+		\   'filetypes' : ['ruby']
+		\  }}
+	NeoBundle 'hail2u/vim-css3-syntax'
+	NeoBundle 'othree/html5.vim'
+	NeoBundle 'moll/vim-node'
+	NeoBundle 'pangloss/vim-javascript'
+	NeoBundle 'tmux-plugins/vim-tmux'
+	NeoBundle 'tpope/vim-obsession'
+	NeoBundleLazy 'chiphogg/vim-prototxt', {
+		\ 'autoload' : {
+		\  'fietypes' : ['prototxt']
+		\ }}
+	NeoBundle 'vim-scripts/DoxygenToolkit.vim'
 
-NeoBundle 'ervandew/screen'
-NeoBundle 'benmills/vimux'
-"NeoBundle 'jgors/vimux-ipy'
-NeoBundle 'julienr/vim-cellmode'
-NeoBundleLazy 'junegunn/vim-easy-align', {
-  \ 'autoload': {
-  \   'commands' : ['EasyAlign'],
-  \   'mappings' : ['<Plug>(EasyAlign)'],
-  \ }}
-"NeoBundleLazy 'tpope/vim-endwise', {
-"  \ 'autoload' : { 'insert' : 1,}}
-NeoBundle 'tpope/vim-fugitive'
-NeoBundleLazy 'cohama/agit.vim', {
-	\ 'autoload': {'commands': 'Agit'}
-	\ }
-NeoBundleLazy 'idanarye/vim-merginal', {
-	\ 'depends' : 'tpope/vim-fugitive',
-	\ 'autoload': {'commands': 'Merginal'}
-	\ }
-NeoBundle 'tpope/vim-surround'
-NeoBundleLazy 'The-NERD-tree', {
-	\ 'autoload': {'commands': 'NERDTreeToggle'}
-	\ }
-NeoBundle 'The-NERD-Commenter'
-NeoBundle 'easymotion/vim-easymotion'
-NeoBundle 'Lokaltog/powerline-fonts'
-NeoBundle 'L9'
-NeoBundleLazy 'cohama/lexima.vim', {
-	\ 'autoload': {
-	\  'insert': 1
-	\}}
-NeoBundle 'Shougo/vimproc.vim', {
-\ 'build' : {
-\     'windows' : 'tools\\update-dll-mingw',
-\     'cygwin' : 'make -f make_cygwin.mak',
-\     'mac' : 'make -f make_mac.mak',
-\     'linux' : 'make',
-\     'unix' : 'gmake',
-\    },
-\ }
-NeoBundleLazy 'Shougo/unite.vim', {
-			\ 'autoload': {
-			\  'commands': ['Unite']
-			\ }}
-NeoBundle 'Shougo/neomru.vim'
-if has('lua')
-	NeoBundleLazy 'Shougo/neocomplete.vim', {
-	\ 'depends' : 'Shougo/vimproc.vim',
-	\ 'autoload': {'insert':1,},
-	\ }
+	NeoBundleSaveCache
 endif
-NeoBundleLazy 'Shougo/neosnippet', {
-  \ 'depends' : 'Shougo/neosnippet-snippets',
-  \ 'autoload' : {
-  \   'insert' : 1,
-  \   'filetypes' : 'snippet',
-  \ }}
-NeoBundle 'Shougo/neosnippet-snippets'
-NeoBundleLazy 'Shougo/vimshell', {
-  \ 'depends' : 'Shougo/vimproc.vim',
-  \ 'autoload' : {
-  \   'commands' : [{ 'name' : 'VimShell', 'complete' : 'customlist,vimshell#complete'},
-  \                 'VimShellExecute', 'VimShellInteractive',
-  \                 'VimShellTerminal', 'VimShellPop'],
-  \   'mappings' : ['<Plug>(vimshell_switch)']
-  \
-  \ }}
-NeoBundle 'itchyny/lightline.vim'
-NeoBundle 'Yggdroot/indentLine'
-NeoBundle 'YankRing.vim'
-NeoBundle 'undotree.vim'
-NeoBundle 'easybuffer.vim'
-NeoBundle 'scrooloose/syntastic', {
-	\ 'build':{
-	\  'mac': 'pip install frosted pep8'
-	\}}
-NeoBundleLazy 'thinca/vim-quickrun', {
-  \ 'autoload' : {
-  \   'commands' : ['QuickRun']
-  \ }}
-NeoBundle 'majutsushi/tagbar'
-NeoBundle 'vim-scripts/TasKList.vim'
-NeoBundle 'tagexplorer.vim'
-NeoBundle 'szw/vim-tags'
-NeoBundle 'thinca/vim-splash'
-NeoBundleLazy 'vim-jp/cpp-vim', {
-	\ 'autoload':{
-	\  'filetypes': ['cpp', 'hpp', 'h']
-	\}}
-NeoBundle 'mattn/quickrunex-vim'
-NeoBundle 'tyru/open-browser.vim'
-NeoBundle 'mattn/webapi-vim'
-NeoBundle 'osyo-manga/unite-boost-online-doc'
-NeoBundle 'cocopon/colorswatch.vim'
-NeoBundle 'terryma/vim-multiple-cursors'
-NeoBundle 'AndrewRadev/linediff.vim'
-NeoBundle 'AndrewRadev/switch.vim'
-NeoBundle 'godlygeek/tabular'
-NeoBundleLazy 'plasticboy/vim-markdown',{
-	\ 'autoload': {
-	\  'filetypes': ['markdown']
-	\ }}
-NeoBundleLazy 'kannokanno/previm', {
-	\ 'autoload': {
-	\  'commands': ['PrevimOpen'],
-	\  'filetypes': ['markdown']
-	\ },
-	\ 'build': {
-	\  'mac': "pip install docutils"
-	\ }}
-NeoBundleLazy 'Rip-Rip/clang_complete', {
-	\ 'autoload': {
-	\  'filetypes': ['cpp', 'c', 'h', 'hpp'],
-	\ }}
-NeoBundleLazy 'alepez/vim-gtest', {
-	\ 'autoload': {
-	\  'filetypes': ['cpp', 'h', 'hpp'],
-	\ }}
-NeoBundleLazy 'heavenshell/vim-pydocstring', {
-	\ 'autoload': {
-	\  'filetypes': ['python', 'python3', 'djangohtml']
-	\}}
-NeoBundleLazy 'alfredodeza/pytest.vim', {
-	\ 'autoload': {
-	\  'filetypes': ['python', 'python3', 'djangohtml']
-	\}}
-NeoBundleLazy 'python_ifold', {
-	\ 'autoload': {
-	\  'filetypes': ['python', 'python3', 'djangohtml']
-	\}}
-NeoBundleLazy 'lambdalisue/vim-django-support', {
-	\ 'autoload': {
-	\  'filetypes': ['python', 'python3', 'djangohtml']
-	\}}
-NeoBundleLazy 'alfredodeza/pytest.vim', {
-	\ 'autoload': {
-	\  'filetypes': ['python', 'python3', 'djangohtml']
-	\}}
-NeoBundleLazy 'andviro/flake8-vim', {
-	\ 'autoload': {
-	\  'command': ['PyFlake', 'PyFlakeAuto'],
-	\  'filetypes': ['python', 'python3', 'djangohtml'],
-	\ }}
-NeoBundleLazy 'hynek/vim-python-pep8-indent', {
-	\ 'autoload': {
-	\  'filetypes': ['python', 'python3', 'djangohtml'],
-	\ }}
-NeoBundleLazy "davidhalter/jedi-vim", {
-	\ "autoload": {
-	\   "filetypes": ["python", "python3", "djangohtml"],
-	\ }}
-NeoBundleLazy "jmcantrell/vim-virtualenv", {
-	\ "autoload": {
-	\   "filetypes": ["python", "python3", "djangohtml"],
-	\ }}
-NeoBundleLazy "lambdalisue/vim-pyenv", {
-	\ "depends": ['davidhalter/jedi-vim'],
-	\ "autoload": {
-	\   "filetypes": ["python", "python3", "djangohtml"]
-	\ }}
-NeoBundleLazy "wilywampa/vim-ipython", {
-	\ "autoload": {
-	\   "filetypes": ["python", "python3", "djangohtml"]
-	\ }}
-NeoBundleLazy "python-rope/ropevim", {
-	\ "autoload": {
-	\   "filetypes": ["python", "python3", "djangohtml"]
-	\ }}
-NeoBundleLazy 'elzr/vim-json', {
-	\ 'autoload':{
-	\  'filteypes': ['json']
-	\ }}
-"NeoBundle 'rbtnn/rabbit-ui.vim', 
-"NeoBundle 'rbtnn/rabbit-ui-collection.vim'
-NeoBundleLazy 'ekalinin/Dockerfile.vim', {
-	\ 'autoload': {
-	\}}
-NeoBundle 'airblade/vim-rooter'
-NeoBundleLazy 'wesleyche/SrcExpl',{
-	\ 'autoload':{
-	\  'commands':['SrcExplToggle']
-	\}}
-NeoBundleLazy 'jalvesaq/Nvim-R',{
-	\ 'autoload': {
-	\  'filetypes': ['r', 'rnoweb', 'rdoc', 'rhelp', 'rrst', 'rmd' ]
-	\ }}
-NeoBundleLazy 'mattn/emmet-vim', {
-	\ 'autoload' : {
-	\   'filetypes' : ['html', 'html5', 'eruby', 'jsp', 'xml', 'css', 'scss', 'coffee'],
-	\   'commands' : ['<Plug>ZenCodingExpandNormal']
-	\ }}
-NeoBundle 'severin-lemaignan/vim-minimap'
-NeoBundleLazy 'vim-ruby/vim-ruby', {
-	\ 'autoload' : {
-	\   'filetypes' : ['ruby', 'eruby']
-	\ }}
-NeoBundleLazy 'thinca/vim-ref', {
-	\ 'autoload' : {
-	\   'commands' : ['Ref'],
-	\   'filetypes' : ['ruby']
-	\ }}
-NeoBundleLazy 'tpope/vim-rails', {
-	\ 'autoload' : {
-	\   'filetypes' : ['ruby']
-	\  }}
-NeoBundle 'hail2u/vim-css3-syntax'
-NeoBundle 'othree/html5.vim'
-NeoBundle 'moll/vim-node'
-NeoBundle 'pangloss/vim-javascript'
-NeoBundle 'tmux-plugins/vim-tmux'
-NeoBundle 'tpope/vim-obsession'
-NeoBundleLazy 'chiphogg/vim-prototxt', {
-	\ 'autoload' : {
-	\  'fietypes' : ['prototxt']
-	\ }}
-NeoBundle 'vim-scripts/DoxygenToolkit.vim'
 call neobundle#end()
 filetype plugin indent on
 
@@ -415,6 +419,7 @@ endif
 "setup for indentLine ========================================================
 let g:indentLine_color_term=237
 let g:indentLine_char='|'
+autocmd Filetype json let g:indentLine_setConceal = 0
 
 "setup for easymotion ========================================================
 set nohlsearch "disable hlsearch for usage of easymotion
@@ -752,7 +757,7 @@ function! s:hooks.on_source(bundle)
 	"let g:vimrplugin_conqueplugin = 0
 	"let g:vimrplugin_map_r = 0
 	let g:R_nvimpager = 'no'
-	"let g:R_term = "gnome-terminal"
+	"let g:R_term = 'gnome-terminal'
 	nmap <F2> <Plug>RStart
 	nmap <C-m> <Plug>RDSendLine
 	vmap <C-m> <Plug>RDSendSelection

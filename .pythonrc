@@ -5,3 +5,9 @@ except ImportError:
 else:
     import rlcompleter
     readline.parse_and_bind("tab: complete")
+
+try:
+    from see import see
+except ImportError:
+    print("Module 'see' not available.")
+

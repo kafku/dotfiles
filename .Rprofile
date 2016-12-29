@@ -11,9 +11,4 @@ if(!require(colorout, quietly = T)){
 	require(colorout, quietly = T)
 }
 
-options(vimcom.verose = 1)
-if(!require(vimcom, quietly = T)){
-    devtools::install_github("jalvesaq/VimCom")
-    require(vimcom, quietly = T)
-}
 
