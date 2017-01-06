@@ -241,11 +241,11 @@ if neobundle#load_cache()
 		\ "autoload": {
 		\   "filetypes": ["python", "python3", "djangohtml"],
 		\ }}
-	NeoBundleLazy "lambdalisue/vim-pyenv", {
-		\ "depends": ['davidhalter/jedi-vim'],
-		\ "autoload": {
-		\   "filetypes": ["python", "python3", "djangohtml"]
-		\ }}
+	"NeoBundleLazy "lambdalisue/vim-pyenv", {
+	"	\ "depends": ['davidhalter/jedi-vim'],
+	"	\ "autoload": {
+	"	\   "filetypes": ["python", "python3", "djangohtml"]
+	"	\ }}
 	NeoBundleLazy "wilywampa/vim-ipython", {
 		\ "autoload": {
 		\   "filetypes": ["python", "python3", "djangohtml"]
@@ -258,7 +258,7 @@ if neobundle#load_cache()
 		\ 'autoload':{
 		\  'filteypes': ['json']
 		\ }}
-	"NeoBundle 'rbtnn/rabbit-ui.vim', 
+	"NeoBundle 'rbtnn/rabbit-ui.vim'
 	"NeoBundle 'rbtnn/rabbit-ui-collection.vim'
 	NeoBundleLazy 'ekalinin/Dockerfile.vim', {
 		\ 'autoload': {
@@ -277,7 +277,10 @@ if neobundle#load_cache()
 		\   'filetypes' : ['html', 'html5', 'eruby', 'jsp', 'xml', 'css', 'scss', 'coffee'],
 		\   'commands' : ['<Plug>ZenCodingExpandNormal']
 		\ }}
-	NeoBundle 'severin-lemaignan/vim-minimap'
+	NeoBundleLazy 'severin-lemaignan/vim-minimap', {
+		\ 'autoload' : {
+		\  'commands' : ['Minimap']
+		\}}
 	NeoBundleLazy 'vim-ruby/vim-ruby', {
 		\ 'autoload' : {
 		\   'filetypes' : ['ruby', 'eruby']
@@ -291,10 +294,16 @@ if neobundle#load_cache()
 		\ 'autoload' : {
 		\   'filetypes' : ['ruby']
 		\  }}
-	NeoBundle 'hail2u/vim-css3-syntax'
+	NeoBundleLazy 'hail2u/vim-css3-syntax', {
+		\ 'autoload' : {
+		\  'filtypes' : ['css']
+		\ }}
 	NeoBundle 'othree/html5.vim'
 	NeoBundle 'moll/vim-node'
-	NeoBundle 'pangloss/vim-javascript'
+	NeoBundleLazy 'pangloss/vim-javascript', {
+		\ 'autoload' : {
+		\  'fietypes' : ['javascript']
+		\}}
 	NeoBundle 'tmux-plugins/vim-tmux'
 	NeoBundle 'tpope/vim-obsession'
 	NeoBundleLazy 'chiphogg/vim-prototxt', {
@@ -469,6 +478,13 @@ let g:tagbar_type_markdown = {
 		\ 'k:Heading_L3'
 	\ ]
 \ }
+let g:tagbar_type_proto = {
+	\ 'ctagstype' : 'protobuf',
+	\ 'kinds' : [
+		\ 'm:message',
+		\ 'v:variable'
+	\ ]
+\ }
 let g:tagbar_type_css = {
 	\ 'ctagstype' : 'css',
 	\ 'kinds' : [
@@ -567,7 +583,7 @@ function! s:hooks.on_source(bundle)
 
 	autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
 	autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-	autocmd FileType javascritp setlocal omnifunc=javascriptcomplete#CompleteJS
+	autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
 	autocmd FileType xml setlocal omnifunc=xmlcomplete#completeTags
 	autocmd FileType python setlocal omnifunc=jedi#completions
 	"autocmd FileType r,rnoweb,rdoc,rhelp,rrst,rmd setlocal omnifunc=rcomplete#CompleteR
