@@ -61,11 +61,17 @@ if has('multi_byte_ime') || has('xim')
 	highlight CursorIM guifg=NONE guibg=DarkRed
 endif
 
+set nofoldenable
 set foldmethod=manual
 set list listchars=tab:\|\ |
 highlight Specialkey ctermfg=233
 
 map Y y$
+
+" tab setting
+autocmd FileType c,cpp  setlocal ts=2 sw=2 sts=2 et
+autocmd FileType r,rnoweb,rdoc,rhelp,rrst,rmd  setlocal ts=2 sw=2 sts=2 et
+autocmd BufRead,BufNewFile *.py,*.pyx setlocal tabstop=4 softtabstop=4 shiftwidth=4 et
 
 if has('vim_starting')
 	if !isdirectory(expand('~/.vim/bundle/neobundle.vim/'))
@@ -229,7 +235,7 @@ if neobundle#load_cache()
 		\  'command': ['PyFlake', 'PyFlakeAuto'],
 		\  'filetypes': ['python', 'python3', 'djangohtml'],
 		\ }}
-	NeoBundleLazy 'hynek/vim-python-pep8-indent', {
+	NeoBundleLazy 'Vimjas/vim-python-pep8-indent', {
 		\ 'autoload': {
 		\  'filetypes': ['python', 'python3', 'djangohtml'],
 		\ }}
@@ -241,11 +247,11 @@ if neobundle#load_cache()
 		\ "autoload": {
 		\   "filetypes": ["python", "python3", "djangohtml"],
 		\ }}
-	"NeoBundleLazy "lambdalisue/vim-pyenv", {
-	"	\ "depends": ['davidhalter/jedi-vim'],
-	"	\ "autoload": {
-	"	\   "filetypes": ["python", "python3", "djangohtml"]
-	"	\ }}
+	:""NeoBundleLazy "lambdalisue/vim-pyenv", {
+	:""	\ "depends": ['davidhalter/jedi-vim'],
+	:""	\ "autoload": {
+	:""	\   "filetypes": ["python", "python3", "djangohtml"]
+	:""	\ }}
 	NeoBundleLazy "wilywampa/vim-ipython", {
 		\ "autoload": {
 		\   "filetypes": ["python", "python3", "djangohtml"]
@@ -330,9 +336,6 @@ inoremap <C-k> <UP>
 inoremap <C-h> <BackSpace>
 nnoremap ; :
 
-" tab setting
-autocmd FileType c,cpp  setlocal ts=2 sw=2 sts=2 et
-autocmd FileType r,rnoweb,rdoc,rhelp,rrst,rmd  setlocal ts=2 sw=2 sts=2 et
 
 "setup for ervandew/screen ==================================================
 "function! s:ScreenShellListener()
@@ -653,7 +656,7 @@ autocmd BufNewFile,BufRead {Makevars*} set filetype=make
 autocmd BufNewFile,BufRead *.{md,mdwn,mkd,mkdn,mark*} set filetype=markdown
 "disable highlight italic in Markdown
 autocmd FileType markdown hi! def link markdownItalic LineNr"
-let g:vim_markdown_folding_diabled = 1
+let g:vim_markdown_folding_disabled = 1
 let g:vim_markdown_math = 1
 
 
