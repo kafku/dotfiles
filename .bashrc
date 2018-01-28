@@ -13,10 +13,14 @@ export LESS='-R -S -N --tabs=4'
 #export LESSOPEN='| /usr/bin/src-hilite-lesspipe.sh %s'
 export HISTIGNORE=rm:cd:exit
 
+export NUM_THREADS=`expr $(cat /proc/cpuinfo | awk '/^processor/{print $3}' | tail -1) - 1`
+export OMP_NUM_THREADS=$NUM_THREADS
+export MKL_NUM_THREADS=$NUM_THREADS
+export OMP_DYNAMIC=false
+export OMP_NESTED=true
+export MKL_DYNAMIC=false
+
 if [ -z "$TMUX" ]; then
-	export OMP_NUM_THREADS=25
-#	export OMP_DYNAMIC=0
-#	export OMP_NESTED=0
 
 	if [ -e $HOME/.rbenv/bin ]; then
 		export PATH=$HOME/.rbenv/bin:$HOME/usr/bin:$PATH
@@ -24,8 +28,10 @@ if [ -z "$TMUX" ]; then
 
 	export PATH=/usr/local/cuda/bin:$PATH
 	export PATH=$HOME/usr/bin:$PATH
-	export LD_LIBRARY_PATH=/usr/local/cuda/lib64:$HOME/usr/lib:/usr/local/lib:/usr/lib64:$LD_LIBRARY_PATH
+	export LD_LIBRARY_PATH=/usr/local/cuda/lib64:/usr/local/cuda/extras/CUPTI/lib64:$HOME/usr/lib:/usr/local/lib:/usr/lib64:$LD_LIBRARY_PATH
 	export PKG_CONFIG_PATH=/usr/lib64/pkgconfig:/usr/local/lib64/pkgconfig:/usr/local/lib/pkgconfig:$HOME/usr/lib/pkgconfig:$PKG_CONFIG_PATH
+	export CUDA_HOME=/usr/local/cuda
+	export CUDA_DEVICE_ORDER=PCI_BUS_ID
 
 	if [ `which R 2> /dev/null` ]; then
 		export VIM_R_INCLUDE_DIR=`R RHOME`/include
@@ -41,6 +47,16 @@ if [ -z "$TMUX" ]; then
 	#export MANPATH="$HOME/.linuxbrew/share/man:$MANPATH"
 	#export INFOPATH="$HOME/.linuxbrew/share/info:$INFOPATH"
 	#export LD_LIBRARY_PATH="$HOME/.linuxbrew/lib:$LD_LIBRARY_PATH"
+
+	# pyenv
+	if [ ! -e $HOME/.pyenv ]; then
+		git clone https://github.com/yyuu/pyenv.git ~/.pyenv
+		#git clone https://github.com/yyuu/pyenv-which-ext.git ~/.pyenv/plugins/pyenv-which-ext
+	else
+		export PYENV_ROOT=$HOME/.pyenv
+		export PATH=$PYENV_ROOT/bin:$PATH
+		eval "$(pyenv init -)"
+	fi
 fi
 
 # rbev
@@ -61,15 +77,6 @@ if [ -s $HOME/.pythonz/etc/bashrc ]; then
 	source $HOME/.pythonz/etc/bashrc
 fi
 
-# pyenv
-if [ ! -e $HOME/.pyenv ]; then
-	git clone https://github.com/yyuu/pyenv.git ~/.pyenv
-	#git clone https://github.com/yyuu/pyenv-which-ext.git ~/.pyenv/plugins/pyenv-which-ext
-else
-	export PYENV_ROOT=$HOME/.pyenv
-	export PATH=$PYENV_ROOT/bin:$PATH
-	eval "$(pyenv init -)"
-fi
 
 # direnv
 type direnv > /dev/null 2>&1 && eval "$(direnv hook bash)"
@@ -79,6 +86,16 @@ if [ ! -e ~/.tmux/plugins/tpm ]; then
 	git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 fi
 
+# bazel
+
+#source ~/usr/share/bazel/bazel-complete-template.bash
+
 #if [ -e /opt/rh/devtoolset-4/enable ]; then
 #	source /opt/rh/devtoolset-4/enable
 #fi
+
+
+# IFTTT secret key
+if [ -f ~/.ifttt_secret ]; then
+	source ~/.ifttt_secret
+fi
