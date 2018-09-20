@@ -317,6 +317,8 @@ if neobundle#load_cache()
 		\  'fietypes' : ['prototxt']
 		\ }}
 	NeoBundle 'vim-scripts/DoxygenToolkit.vim'
+	NeoBundle 'luochen1990/rainbow'
+	NeoBundle 'thinca/vim-localrc'
 
 	NeoBundleSaveCache
 endif
@@ -793,3 +795,5 @@ endfunction
 let g:django_support#auto_activate = 0
 let g:django_support#auto_activate_on_filetype = 0
 
+"setup for rainbow
+let g:rainbow_active = 1
