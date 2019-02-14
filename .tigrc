@@ -1,0 +1,17 @@
+set main-view  = line-number:yes,interval=10 id:width=8 date:local=yes author commit-title:graph=yes,refs=yes
+set blame-view = date:local=yes author:email-user id:yes,color line-number:yes,interval=1 text
+set pager-view = line-number:yes,interval=1 text
+set stage-view = line-number:yes,interval=1 text
+set log-view   = line-number:yes,interval=1 text
+set blob-view  = line-number:yes,interval=1 text
+set diff-view  = line-number:yes,interval=1 text:yes,commit-title-overflow=no
+
+set vertical-split = yes
+set line-graphics = utf-8
+
+set tab-size = 4
+set diff-context = 5
+set ignore-space = at-eol
+set ignore-case = true
+set mouse = false
+set refresh-mode = auto
