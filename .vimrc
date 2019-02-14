@@ -1,3 +1,4 @@
+filetype plugin on
 set tabstop=4
 set shiftwidth=4
 syntax on
@@ -45,7 +46,7 @@ vnoremap < <gv
 vnoremap > >gv
 
 " remove trailing whitespace
-autocmd BufWritePre *.py :%s/\s\+$//ge
+autocmd BufWritePre *.py call TrimEndLines()
 
 " remove empty lines / python
 function TrimEndLines()
@@ -53,8 +54,6 @@ function TrimEndLines()
 	:silent! %s#\($\n\s*\)\+\%$##
 	call setpos('.', save_cursor)
 endfunction
-
-autocmd BufWritePre *.py call TrimEndLines()
 
 if has('multi_byte_ime') || has('xim')
 	highlight Cursor guifg=NONE guibg=White
@@ -73,6 +72,8 @@ autocmd FileType c,cpp  setlocal ts=2 sw=2 sts=2 et
 autocmd FileType r,rnoweb,rdoc,rhelp,rrst,rmd  setlocal ts=2 sw=2 sts=2 et
 autocmd BufRead,BufNewFile *.py,*.pyx setlocal tabstop=4 softtabstop=4 shiftwidth=4 et
 
+
+
 if has('vim_starting')
 	if !isdirectory(expand('~/.vim/bundle/neobundle.vim/'))
 		echo 'installing neobundle'
@@ -87,6 +88,7 @@ let g:neobundle_default_git_protocol = 'https'
 if neobundle#load_cache()
 	NeoBundleFetch 'Shougo/neobundle.vim'
 
+	NeoBundle 'simeji/winresizer'
 	NeoBundle 'w0ng/vim-hybrid'
 	NeoBundle 'nanotech/jellybeans.vim'
 	NeoBundle 'tomasr/molokai'
@@ -318,16 +320,19 @@ if neobundle#load_cache()
 		\ }}
 	NeoBundle 'vim-scripts/DoxygenToolkit.vim'
 	NeoBundle 'luochen1990/rainbow'
-	NeoBundle 'thinca/vim-localrc'
+	NeoBundle 'embear/vim-localvimrc'
+	"NeoBundle 'cjrh/vim-conda'
 
 	NeoBundleSaveCache
 endif
 call neobundle#end()
 filetype plugin indent on
 
+
+
+
 "setups for colorscheme
 colorscheme jellybeans
-
 set colorcolumn=80
 highlight ColorColumn ctermbg=234
 
@@ -701,22 +706,11 @@ function! s:hooks.on_source(bundle)
 	endif
 endfunction
 
-"define Jq command ============================================================
-"command! -nargs=? Jq call s:Jq(<f-args>)
-"function! s:Jq(...)
-"	if 0 == a:0
-"		let l:arg = "."
-"	else
-"		let l:arg = a:1
-"	endif
-"	execute "%! jq 95fe1a73-e2e2-4737-bea1-a44257c50fc8quot;" . l:arg . "95fe1a73-e2e2-4737-bea1-a44257c50fc8quot;"
-"endfunction
-
 "setup for vim-rooter =========================================================
 let g:rooter_use_lcd = 1
 let g:rooter_patterns = ['tags', '.git', '.git/',
 			\'Makefile', 'OMakeroot',
-			\'CMakeLists.txt', '.svn', '.hg']
+			\'CMakeLists.txt', '.svn', '.hg', $HOME]
 
 "setup for SrcExpl ============================================================
 nmap <F9> :SrcExplToggle<CR>
