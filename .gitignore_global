@@ -1,0 +1,6 @@
+*.swp
+.local.vimrc
+.local.*.vimrc
+.lvimrc
+.direnv
+.envrc
