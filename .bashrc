@@ -49,14 +49,14 @@ if [ -z "$TMUX" ]; then
 	#export LD_LIBRARY_PATH="$HOME/.linuxbrew/lib:$LD_LIBRARY_PATH"
 
 	# pyenv
-	if [ ! -e $HOME/.pyenv ]; then
-		git clone https://github.com/yyuu/pyenv.git ~/.pyenv
-		#git clone https://github.com/yyuu/pyenv-which-ext.git ~/.pyenv/plugins/pyenv-which-ext
-	else
-		export PYENV_ROOT=$HOME/.pyenv
-		export PATH=$PYENV_ROOT/bin:$PATH
-		eval "$(pyenv init -)"
-	fi
+	#if [ ! -e $HOME/.pyenv ]; then
+	#	git clone https://github.com/yyuu/pyenv.git ~/.pyenv
+	#	#git clone https://github.com/yyuu/pyenv-which-ext.git ~/.pyenv/plugins/pyenv-which-ext
+	#else
+	#	export PYENV_ROOT=$HOME/.pyenv
+	#	export PATH=$PYENV_ROOT/bin:$PATH
+	#	eval "$(pyenv init -)"
+	#fi
 fi
 
 # rbev
@@ -99,3 +99,20 @@ fi
 if [ -f ~/.ifttt_secret ]; then
 	source ~/.ifttt_secret
 fi
+
+# added by Anaconda3 2018.12 installer
+# >>> conda init >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$(CONDA_REPORT_ERRORS=false '/home/fukui/anaconda3/bin/conda' shell.bash hook 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    \eval "$__conda_setup"
+else
+    if [ -f "/home/fukui/anaconda3/etc/profile.d/conda.sh" ]; then
+        . "/home/fukui/anaconda3/etc/profile.d/conda.sh"
+        CONDA_CHANGEPS1=false conda activate base
+    else
+        \export PATH="/home/fukui/anaconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda init <<<
