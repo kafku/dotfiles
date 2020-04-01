@@ -192,6 +192,7 @@ if neobundle#load_cache()
 	NeoBundle 'AndrewRadev/linediff.vim'
 	NeoBundle 'AndrewRadev/switch.vim'
 	NeoBundle 'godlygeek/tabular'
+	NeoBundle 'cespare/vim-toml'
 	NeoBundleLazy 'plasticboy/vim-markdown',{
 		\ 'autoload': {
 		\  'filetypes': ['markdown']
