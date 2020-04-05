@@ -498,28 +498,26 @@ nnoremap <C-]> g<C-]>
 nmap <leader>T <Plug>TaskList
 
 "set up for ALE ==============================================================
-let g:ale_fixers = {
-	\ '*': ['remove_trailing_lines', 'trim_whitespace'],
-	\ 'c': [],
-	\ 'cpp': [],
-	\ 'javascript': ['eslint'],
-	\ 'python': ['pylint', 'frosted', 'pep8', 'pep257'],
+let g:ale_linters = {
+	\ 'sh': ['shell'],
 	\ 'r': ['lintr'],
 	\ 'vim': ['vint'],
+	\ 'python': ['pylint', 'frosted', 'pep8', 'pep257'],
+	\ 'javascript': ['eslint'],
+\}
+
+let g:ale_fixers = {
+	\ '*': ['remove_trailing_lines', 'trim_whitespace'],
+	\ 'javascript': ['eslint']
 \}
 
 let g:ale_sign_error = '>>'
 let g:ale_sign_warning = '--'
 
-let g:ale_fix_on_save = 1
-let g:ale_completion_enabled = 0
-
-" run linters only on save
-"let g:ale_lint_on_text_changed = 'never'
-"let g:ale_lint_on_insert_leave = 0
-"let g:ale_lint_on_enter = 0
-
-let g:ale_list_window_size = 10
+let g:ale_open_list = 1
+let g:ale_list_window_size = 5
+let g:ale_fix_on_save = 0
+let g:ale_completion_enabled = 0 "use asyncomplete instead
 
 "set up for asyncomplete ======================================================
 inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
