@@ -162,14 +162,12 @@ if neobundle#load_cache()
 	  \
 	  \ }}
 	NeoBundle 'itchyny/lightline.vim'
+	NeoBundle 'maximbaz/lightline-ale'
 	NeoBundle 'Yggdroot/indentLine'
 	NeoBundle 'YankRing.vim'
 	NeoBundle 'undotree.vim'
 	NeoBundle 'easybuffer.vim'
-	NeoBundle 'scrooloose/syntastic', {
-		\ 'build':{
-		\  'mac': 'pip install frosted pep8'
-		\}}
+	NeoBundle 'dense-analysis/ale'
 	NeoBundleLazy 'thinca/vim-quickrun', {
 	  \ 'autoload' : {
 	  \   'commands' : ['QuickRun']
@@ -359,7 +357,7 @@ let g:lightline = {
 	\ 'colorscheme' : 'jellybeans',
 	\ 'active':{
 	\	'left' : [ ['mode', 'paste'], ['readonly', 'fugitive', 'filename', 'modified'], ['currenttag'] ],
-	\	'right' : [ ['syntastic', 'lineinfo'], ['percent'], ['fileformat', 'fileencoding', 'filetype'] ]
+	\	'right' : [ ['linter_checking', 'linter_errors', 'linter_warnings', 'linter_infos', 'linter_ok', 'lineinfo'], ['percent'], ['fileformat', 'fileencoding', 'filetype'] ]
 	\  },
 	\ 'component_function' : {
 	\ 	'fugitive' : 'MyFugitive',
@@ -368,12 +366,20 @@ let g:lightline = {
 	\ 	'currenttag' : 'MyCurrenttag'
 	\  },
 	\ 'component_expand' :{
-	\ 	'syntastic' : 'SyntasticStatuslineFlag'
+	\ 	'linter_checking': 'lightline#ale#checking',
+	\ 	'linter_infos': 'lightline#ale#infos',
+	\ 	'linter_warnings': 'lightline#ale#warnings',
+	\ 	'linter_errors': 'lightline#ale#errors',
+	\ 	'linter_ok': 'lightline#ale#ok'
 	\ },
 	\ 'component_type' : {
-	\	'syntastic' : 'error'
-	\  }
+	\ 	'linter_checking': 'right',
+	\ 	'linter_infos': 'right',
+	\ 	'linter_warnings': 'warning',
+	\ 	'linter_errors': 'error',
+	\ 	'linter_ok': 'right',
 	\ }
+\}
 
 function! MyModified()
 	if &filetype == "help"
@@ -409,14 +415,6 @@ function! MyCurrenttag()
 	return tagbar#currenttag('%s',"no tag")
 endfunction
 
-augroup AutoSyntastic
-	  autocmd!
-	    autocmd BufWritePost *.c,*.cpp call s:syntastic()
-augroup END
-function! s:syntastic()
-	  SyntasticCheck
-		call lightline#update()
-endfunction
 
 if !has('gui_running')
 	set t_Co=256
@@ -499,40 +497,29 @@ nnoremap <C-]> g<C-]>
 "set up for TaskList =========================================================
 nmap <leader>T <Plug>TaskList
 
-"set up for syntastic =========================================================
-set statusline+=%{SyntasticStatuslineFlag()}
+"set up for ALE ==============================================================
+let g:ale_fixers = {
+	\ '*': ['remove_trailing_lines', 'trim_whitespace'],
+	\ 'c': [],
+	\ 'cpp': [],
+	\ 'javascript': ['eslint'],
+	\ 'python': ['pylint', 'frosted', 'pep8', 'pep257'],
+	\ 'r': ['lintr'],
+	\ 'vim': ['vint'],
+\}
 
-" C lang
-let g:syntastic_check_on_open = 0
-let g:syntastic_check_on_wq = 0
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_enable_signs = 1
-let g:syntastic_c_check_header = 1
+let g:ale_sign_error = '>>'
+let g:ale_sign_warning = '--'
 
-" C++
-let g:syntastic_cpp_check_header = 1
-let g:syntastic_cpp_auto_refresh_includes = 0
-let g:syntastic_no_default_include_dirs = 1
-let g:syntastic_cpp_include_dirs = [
-	\ '/usr/include/c++/'.system('g++ -dumpversion'),
-	\ '/usr/include',
-	\ '/usr/local/include']
-"	\ $VIM_R_INCLUDE_DIR,
-"	\ $VIM_R_PKG_PATH.'/Rcpp/include',
-"	\ $VIM_R_PKG_PATH.'/RcppArmadillo/include']
-let g:syntastic_cpp_compiler_options = '-std=c++11'
+let g:ale_fix_on_save = 1
+let g:ale_completion_enabled = 0
 
-" python
-let g:syntastic_aggregate_errors = 1
-let g:syntastic_python_python_exec = $HOME.'/.pyenv/shims/python'
-let g:syntastic_python_checkers = ['pylint', 'frosted', 'pep8', 'pep257']
+" run linters only on save
+"let g:ale_lint_on_text_changed = 'never'
+"let g:ale_lint_on_insert_leave = 0
+"let g:ale_lint_on_enter = 0
 
-" R lang : 'install.packages("lintr")'
-let g:syntastic_enable_r_lintr_checker = 1
-let g:syntastic_r_checkers = ['lintr']
-
-" VimL : 'pip install vim-vint #not vint'
-let g:syntastic_vim_checkers = ['vint']
+let g:ale_list_window_size = 10
 
 "set up for neocomplete =======================================================
 let s:hooks = neobundle#get_hooks('neocomplete.vim')
@@ -677,7 +664,6 @@ function! s:hooks.on_source(bundle)
 	let g:jedi#goto_assignments_command = '<Leader>G'
 endfunction
 
-
 "setup for vim-rooter =========================================================
 let g:rooter_use_lcd = 1
 let g:rooter_patterns = ['tags', '.git', '.git/',
@@ -710,7 +696,6 @@ autocmd FileType html,css EmmetInstall
 "setup for vim-easy-align =====================================================
 vmap <Enter> <Plug>(EasyAlign)
 nmap <Leader>a <Plug>(EasyAlign)
-
 
 "setup for lexima.vim ========================================================
 let s:hooks = neobundle#get_hooks('lexima.vim')
