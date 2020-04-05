@@ -69,9 +69,10 @@ map Y y$
 
 " tab setting
 autocmd FileType c,cpp  setlocal ts=2 sw=2 sts=2 et
+autocmd FileType java  setlocal ts=2 sw=2 sts=2 et
+autocmd FileType javascript setlocal ts=2 sw=2 sts=2 et
 autocmd FileType r,rnoweb,rdoc,rhelp,rrst,rmd  setlocal ts=2 sw=2 sts=2 et
 autocmd BufRead,BufNewFile *.py,*.pyx setlocal tabstop=4 softtabstop=4 shiftwidth=4 et
-
 
 
 if has('vim_starting')
