@@ -525,8 +525,6 @@ let g:ale_list_window_size = 10
 inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 inoremap <expr><C-k> pumvisible() ? "\<C-p>" : "\<UP>"
 inoremap <expr><C-j> pumvisible() ? "\<C-n>" : "\<DOWN>"
-inoremap <expr><C-h> asyncomplete#close_popup()."\<C-h>"
-inoremap <expr><BS> asyncomplete#close_popup()."\<C-h>"
 inoremap <expr><C-y> asyncomplete#close_popup()
 inoremap <expr><C-e> asyncomplete#cancel_popup()."\<ESC>"
 inoremap <expr><C-[> asyncomplete#cancel_popup()."\<C-[>"
@@ -543,6 +541,8 @@ call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options
     \    'max_buffer_size': 5000000,
     \  },
     \ }))
+
+let g:asyncomplete_buffer_clear_cache = 1
 
 "set up for asyncomplete-file ===============================================
 au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#file#get_source_options({
