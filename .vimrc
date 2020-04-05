@@ -233,11 +233,6 @@ if neobundle#load_cache()
 		\ 'autoload': {
 		\  'filetypes': ['python', 'python3', 'djangohtml']
 		\}}
-	NeoBundleLazy 'andviro/flake8-vim', {
-		\ 'autoload': {
-		\  'command': ['PyFlake', 'PyFlakeAuto'],
-		\  'filetypes': ['python', 'python3', 'djangohtml'],
-		\ }}
 	NeoBundleLazy 'Vimjas/vim-python-pep8-indent', {
 		\ 'autoload': {
 		\  'filetypes': ['python', 'python3', 'djangohtml'],
@@ -250,16 +245,7 @@ if neobundle#load_cache()
 		\ "autoload": {
 		\   "filetypes": ["python", "python3", "djangohtml"],
 		\ }}
-	:""NeoBundleLazy "lambdalisue/vim-pyenv", {
-	:""	\ "depends": ['davidhalter/jedi-vim'],
-	:""	\ "autoload": {
-	:""	\   "filetypes": ["python", "python3", "djangohtml"]
-	:""	\ }}
 	NeoBundleLazy "wilywampa/vim-ipython", {
-		\ "autoload": {
-		\   "filetypes": ["python", "python3", "djangohtml"]
-		\ }}
-	NeoBundleLazy "python-rope/ropevim", {
 		\ "autoload": {
 		\   "filetypes": ["python", "python3", "djangohtml"]
 		\ }}
@@ -691,21 +677,6 @@ function! s:hooks.on_source(bundle)
 	let g:jedi#goto_assignments_command = '<Leader>G'
 endfunction
 
-"setup for vim-pyenv ===========================================================
-let s:hooks = neobundle#get_hooks('vim-pyenv')
-function! s:hooks.on_source(bundle)
-	if jedi#init_python()
-		function! s:jedi_auto_force_py_version() abort
-			let major_version = pyenv#python#get_internal_major_version()
-			call jedi#force_py_version(major_version)
-		endfunction
-		augroup vim-pyenv-custom-group
-			autocmd! *
-			autocmd User vim-pyenv-activate-post call s:jedi_auto_force_py_version()
-			autocmd User vim-pyenv-deactivate-post call s:jedi_auto_force_py_version()
-		augroup END
-	endif
-endfunction
 
 "setup for vim-rooter =========================================================
 let g:rooter_use_lcd = 1
@@ -740,16 +711,6 @@ autocmd FileType html,css EmmetInstall
 vmap <Enter> <Plug>(EasyAlign)
 nmap <Leader>a <Plug>(EasyAlign)
 
-"setup for flake8-vim =========================================================
-let s:hooks = neobundle#get_hooks('flake8-vim')
-function! s:hooks.on_source(bundle)
-	let g:PyFlakeOnWrite = 0
-	let g:PyFlakeCheckers = 'pep8,mccabe,frosted'
-	let g:PyFlakeDefaultComplexity = 10
-	let g:PyFlakeCWindow = 6
-	let g:PyFlakeSigns = 1
-	let g:PyFlakeSignStart = 1
-endfunction
 
 "setup for lexima.vim ========================================================
 let s:hooks = neobundle#get_hooks('lexima.vim')
