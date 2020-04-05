@@ -142,9 +142,11 @@ if neobundle#load_cache()
 	NeoBundle 'prabirshrestha/asyncomplete.vim'
 	NeoBundle 'prabirshrestha/async.vim'
 	NeoBundle 'prabirshrestha/vim-lsp'
+	NeoBundle 'mattn/vim-lsp-settings'
 	NeoBundle 'prabirshrestha/asyncomplete-lsp.vim'
 	NeoBundle 'prabirshrestha/asyncomplete-buffer.vim'
 	NeoBundle 'prabirshrestha/asyncomplete-file.vim'
+	"NeoBundle 'ryanolsonx/vim-lsp-python'
 	NeoBundleLazy 'Shougo/neosnippet', {
 	  \ 'depends' : 'Shougo/neosnippet-snippets',
 	  \ 'autoload' : {
@@ -162,12 +164,12 @@ if neobundle#load_cache()
 	  \
 	  \ }}
 	NeoBundle 'itchyny/lightline.vim'
-	NeoBundle 'maximbaz/lightline-ale'
 	NeoBundle 'Yggdroot/indentLine'
 	NeoBundle 'YankRing.vim'
 	NeoBundle 'undotree.vim'
 	NeoBundle 'easybuffer.vim'
 	NeoBundle 'dense-analysis/ale'
+	NeoBundle 'maximbaz/lightline-ale'
 	NeoBundleLazy 'thinca/vim-quickrun', {
 	  \ 'autoload' : {
 	  \   'commands' : ['QuickRun']
@@ -234,10 +236,6 @@ if neobundle#load_cache()
 	NeoBundleLazy 'Vimjas/vim-python-pep8-indent', {
 		\ 'autoload': {
 		\  'filetypes': ['python', 'python3', 'djangohtml'],
-		\ }}
-	NeoBundleLazy "davidhalter/jedi-vim", {
-		\ "autoload": {
-		\   "filetypes": ["python", "python3", "djangohtml"],
 		\ }}
 	NeoBundleLazy "jmcantrell/vim-virtualenv", {
 		\ "autoload": {
@@ -511,10 +509,10 @@ let g:ale_fixers = {
 	\ 'javascript': ['eslint']
 \}
 
-let g:ale_sign_error = '>>'
-let g:ale_sign_warning = '--'
+"let g:ale_sign_error = '>>'
+"let g:ale_sign_warning = '--'
 
-let g:ale_open_list = 1
+let g:ale_open_list = 0
 let g:ale_list_window_size = 5
 let g:ale_fix_on_save = 0
 let g:ale_completion_enabled = 0 "use asyncomplete instead
@@ -607,19 +605,6 @@ function! s:hooks.on_source(bundle)
 	let g:clang_default_keymappings = 0
 	let g:clang_usr_options = '-std=c++11'
 	"let g:clang_use_library = 1
-endfunction
-
-"setup for jedi-vim ===========================================================
-let s:hooks = neobundle#get_hooks('jedi-vim')
-function! s:hooks.on_source(bundle)
-	autocmd FileType python setlocal completeopt-=preview
-	let g:jedi#completions_enabled = 0
-	let g:jedi#auto_vim_configuration = 0
-	let g:jedi#smart_auto_mappings = 0
-	let g:jedi#popup_select_first = 0
-	let g:jedi#show_call_signatures = 1
-	let g:jedi#rename_command = '<Leader>R'
-	let g:jedi#goto_assignments_command = '<Leader>G'
 endfunction
 
 "setup for vim-rooter =========================================================
