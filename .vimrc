@@ -139,12 +139,12 @@ if neobundle#load_cache()
 				\  'commands': ['Unite']
 				\ }}
 	NeoBundle 'Shougo/neomru.vim'
-	if has('lua')
-		NeoBundleLazy 'Shougo/neocomplete.vim', {
-		\ 'depends' : 'Shougo/vimproc.vim',
-		\ 'autoload': {'insert':1,},
-		\ }
-	endif
+	NeoBundle 'prabirshrestha/asyncomplete.vim'
+	NeoBundle 'prabirshrestha/async.vim'
+	NeoBundle 'prabirshrestha/vim-lsp'
+	NeoBundle 'prabirshrestha/asyncomplete-lsp.vim'
+	NeoBundle 'prabirshrestha/asyncomplete-buffer.vim'
+	NeoBundle 'prabirshrestha/asyncomplete-file.vim'
 	NeoBundleLazy 'Shougo/neosnippet', {
 	  \ 'depends' : 'Shougo/neosnippet-snippets',
 	  \ 'autoload' : {
@@ -521,86 +521,46 @@ let g:ale_completion_enabled = 0
 
 let g:ale_list_window_size = 10
 
-"set up for neocomplete =======================================================
-let s:hooks = neobundle#get_hooks('neocomplete.vim')
-function! s:hooks.on_source(bundle)
-	let g:neocomplete#enable_at_startup = 1
-	let g:neocomplete#enable_smart_case = 1
-	let g:neocomplete#sources#syntax#min_syntax_length = 3
-	let g:neocomplete#lock_name_pattern = '\*ku\*'
+"set up for asyncomplete ======================================================
+inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
+inoremap <expr><C-k> pumvisible() ? "\<C-p>" : "\<UP>"
+inoremap <expr><C-j> pumvisible() ? "\<C-n>" : "\<DOWN>"
+inoremap <expr><C-y> asyncomplete#close_popup()
+inoremap <expr><C-e> asyncomplete#cancel_popup()."\<ESC>"
+inoremap <expr><C-[> asyncomplete#cancel_popup()."\<C-[>"
 
-	let g:neocomplete#sources#dictionary#dictionaries = {
-			\ 'default' : '',
-			\ 'vimshell' : $HOME.'/.vimshell_hist',
-			\ 'scheme' : $HOME.'./.gosh_completions'
-				\}
+let g:asyncomplete_auto_popup = 1
 
-	if !exists('g:neocompletei#keyword_patterns')
-		let g:neocomplete#keyword_patterns = {}
-	endif
-	let g:neocomplete#keyword_patterns['default'] = '\h\w*'
-
-	inoremap <expr><C-g> neocomplete#undo_completion()
-	inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
-	function! s:my_cr_function()
-		return pumvisible() ? neocomplete#close_popup() : s:ExCr()
-	endfunction
-
-	"inoremap <expr><TAB>  pumvisible() ? "\<C-n>" :
-	"        \ <SID>check_back_space() ? "\<TAB>" :
-	"        \ neocomplete#start_manual_complete()
-	"function! s:check_back_space()
-	"	let col = col('.') - 1
-	"	return !col || getline('.')[col - 1]  =~ '\s'
-	"endfunction
-	inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
-	inoremap <expr><C-k> pumvisible() ? "\<C-p>" : "\<UP>"
-	inoremap <expr><C-j> pumvisible() ? "\<C-n>" : "\<DOWN>"
-	inoremap <expr><C-l> pumvisible() ? neocomplete#close_popup()."\<RIGHT>" : "\<RIGHT>"
-	inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
-	inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
-	inoremap <expr><C-y> neocomplete#close_popup()
-	inoremap <expr><C-e> neocomplete#cancel_popup()."\<ESC>"
-	" NOTE: the flollowing line seems not working
-	inoremap <expr><C-[> neocomplete#cancel_popup()."\<C-[>""
-	inoremap <expr><Space> pumvisible() ? neocomplete#close_popup()."\<Space>" : "\<Space>"
-
-	autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-	autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-	autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-	autocmd FileType xml setlocal omnifunc=xmlcomplete#completeTags
-	autocmd FileType python setlocal omnifunc=jedi#completions
-	"autocmd FileType r,rnoweb,rdoc,rhelp,rrst,rmd setlocal omnifunc=rcomplete#CompleteR
-
-	"if !exists('g:neocomplete#sources#omni#functions')
-	"	let g:neocomplete#sources#omni#functions = {}
-	"endif
-	"let g:neocomplete#sources#omni#functions.r = 'rcomplete#CompleteR'
-
-	if !exists('g:neocomplete#sources#omni#input_patterns')
-		let g:neocomplete#sources#omni#input_patterns = {}
-	endif
-	let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
-	let g:neocomplete#sources#omni#input_patterns.c = '\[^.[:digit:] *\t]\%(\.\|->\)'
-	let g:neocomplete#sources#omni#input_patterns.cpp = '\[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
-	let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
-	let g:neocomplete#sources#omni#input_patterns.r = '[[:alnum:].\\]\+'
-
-	" use clang_complete for cpp and c
-	if !exists('g:neocomplete#force_omni_input_patterns')
-	  let g:neocomplete#force_omni_input_patterns = {}
-	endif
-	let g:neocomplete#force_omni_input_patterns.c =
-		  \ '[^.[:digit:] *\t]\%(\.\|->\)\w*'
-	let g:neocomplete#force_omni_input_patterns.cpp =
-		  \ '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
-	let g:neocomplete#force_omni_input_patterns.objc =
-		  \ '\[\h\w*\s\h\?\|\h\w*\%(\.\|->\)'
-	let g:neocomplete#force_omni_input_patterns.objcpp =
-		  \ '\[\h\w*\s\h\?\|\h\w*\%(\.\|->\)\|\h\w*::\w*'
-	let g:neocomplete#force_omni_input_patterns.python = '\h\w*\|[^. \t]\.\w*'
-	let g:neocomplete#force_omni_input_patterns.r = '\h\w*::\w*\|\h\w*:::\w*\|\h\w*\$\w*\|[^.[:digit:] *\t]\.\w*'
+function! s:check_back_space() abort
+	let col = col('.') - 1
+	return !col || getline('.')[col - 1]  =~ '\s'
 endfunction
+
+inoremap <silent><expr> <TAB>
+  \ pumvisible() ? "\<C-n>" :
+  \ <SID>check_back_space() ? "\<TAB>" :
+  \ asyncomplete#force_refresh()
+
+"set up for asyncomplete-buffer ===============================================
+call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
+    \ 'name': 'buffer',
+    \ 'whitelist': ['*'],
+    \ 'blacklist': ['go'],
+    \ 'completor': function('asyncomplete#sources#buffer#completor'),
+    \ 'config': {
+    \    'max_buffer_size': 5000000,
+    \  },
+    \ }))
+
+let g:asyncomplete_buffer_clear_cache = 1
+
+"set up for asyncomplete-file ===============================================
+au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#file#get_source_options({
+    \ 'name': 'file',
+    \ 'whitelist': ['*'],
+    \ 'priority': 10,
+    \ 'completor': function('asyncomplete#sources#file#completor')
+    \ }))
 
 "setupfor vim-quickrun ========================================================
 let g:quickrun_config = get(g:, 'quickrun_config', {})
