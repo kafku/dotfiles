@@ -148,13 +148,9 @@ if neobundle#load_cache()
 	NeoBundle 'prabirshrestha/asyncomplete-buffer.vim'
 	NeoBundle 'prabirshrestha/asyncomplete-file.vim'
 	NeoBundle 'ryanolsonx/vim-lsp-python'
-	NeoBundleLazy 'Shougo/neosnippet', {
-	  \ 'depends' : 'Shougo/neosnippet-snippets',
-	  \ 'autoload' : {
-	  \   'insert' : 1,
-	  \   'filetypes' : 'snippet',
-	  \ }}
+	NeoBundle 'Shougo/neosnippet'
 	NeoBundle 'Shougo/neosnippet-snippets'
+	NeoBundle 'prabirshrestha/asyncomplete-neosnippet.vim'
 	NeoBundleLazy 'Shougo/vimshell', {
 	  \ 'depends' : 'Shougo/vimproc.vim',
 	  \ 'autoload' : {
@@ -322,7 +318,7 @@ highlight ColorColumn ctermbg=234
 
 "setups for each plugin follows
 inoremap <C-j> <DOWN>
-inoremap <C-k> <UP>
+"inoremap <C-k> <UP>
 "inoremap <C-l> <RIGHT>
 inoremap <C-h> <BackSpace>
 nnoremap ; :
@@ -564,6 +560,18 @@ au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#source
     \ 'priority': 10,
     \ 'completor': function('asyncomplete#sources#file#completor')
     \ }))
+
+"set up for asyncomplete-neosnippet ==========================================
+
+call asyncomplete#register_source(asyncomplete#sources#neosnippet#get_source_options({
+    \ 'name': 'neosnippet',
+    \ 'whitelist': ['*'],
+    \ 'completor': function('asyncomplete#sources#neosnippet#completor'),
+    \ }))
+
+imap <C-k> <Plug>(neosnippet_expand_or_jump)
+smap <C-k> <Plug>(neosnippet_expand_or_jump)
+xmap <C-k> <Plug>(neosnippet_expand_target)
 
 "setupfor vim-quickrun ========================================================
 let g:quickrun_config = get(g:, 'quickrun_config', {})
