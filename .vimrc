@@ -146,7 +146,7 @@ if neobundle#load_cache()
 	NeoBundle 'prabirshrestha/asyncomplete-lsp.vim'
 	NeoBundle 'prabirshrestha/asyncomplete-buffer.vim'
 	NeoBundle 'prabirshrestha/asyncomplete-file.vim'
-	"NeoBundle 'ryanolsonx/vim-lsp-python'
+	NeoBundle 'ryanolsonx/vim-lsp-python'
 	NeoBundleLazy 'Shougo/neosnippet', {
 	  \ 'depends' : 'Shougo/neosnippet-snippets',
 	  \ 'autoload' : {
@@ -494,6 +494,12 @@ nnoremap <C-]> g<C-]>
 
 "set up for TaskList =========================================================
 nmap <leader>T <Plug>TaskList
+
+"set up for vim-lsp  =========================================================
+
+let g:lsp_diagnostics_enabled = 0
+let g:lsp_signs_enabled = 0
+let g:lsp_diagnostics_echo_cursor = 0
 
 "set up for ALE ==============================================================
 let g:ale_linters = {
