@@ -498,6 +498,22 @@ let g:lsp_diagnostics_enabled = 0
 let g:lsp_signs_enabled = 0
 let g:lsp_diagnostics_echo_cursor = 0
 
+"set up for vim-lsp (vim)  ======================================================
+
+if executable('vim-language-server')
+  augroup LspVim
+    autocmd!
+    autocmd User lsp_setup call lsp#register_server({
+        \ 'name': 'vim-language-server',
+        \ 'cmd': {server_info->['vim-language-server', '--stdio']},
+        \ 'whitelist': ['vim'],
+        \ 'initialization_options': {
+        \   'vimruntime': $VIMRUNTIME,
+        \   'runtimepath': &rtp,
+        \ }})
+  augroup END
+endif
+
 "set up for ALE ==============================================================
 let g:ale_linters = {
 	\ 'sh': ['shell'],
