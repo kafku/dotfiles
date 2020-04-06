@@ -497,6 +497,7 @@ nmap <leader>T <Plug>TaskList
 let g:lsp_diagnostics_enabled = 0
 let g:lsp_signs_enabled = 0
 let g:lsp_diagnostics_echo_cursor = 0
+let g:lsp_log_file = ''
 
 "set up for vim-lsp (vim)  ======================================================
 
